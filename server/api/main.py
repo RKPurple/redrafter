@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 from pathlib import Path
 
@@ -6,6 +7,13 @@ from queries.drafts import get_draft_by_year
 
 DB_PATH = Path("db/nba.db")
 app = FastAPI(title="NBA Redraft API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
