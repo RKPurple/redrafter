@@ -22,7 +22,7 @@ INSERT INTO teams (abbr, city, name) VALUES
 ('OKC', 'Oklahoma City', 'Thunder'),
 ('ORL', 'Orlando', 'Magic'),
 ('PHI', 'Philadelphia', '76ers'),
-('PHX', 'Phoenix', 'Suns'),
+('PHO', 'Phoenix', 'Suns'),
 ('POR', 'Portland', 'Trail Blazers'),
 ('SAC', 'Sacramento', 'Kings'),
 ('SAS', 'San Antonio', 'Spurs'),
