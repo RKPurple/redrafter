@@ -1,3 +1,4 @@
+# Return the draft info for a specific year
 def get_draft_by_year() -> str:
     return """
     SELECT
@@ -21,4 +22,12 @@ def get_draft_by_year() -> str:
     ORDER BY
         CASE WHEN dp.pick_number IS NULL THEN 1 ELSE 0 END,
         dp.pick_number;
+    """
+
+# Query all the available draft years in the db
+def get_all_draft_years() -> str:
+    return """
+    SELECT year
+    FROM drafts
+    ORDER BY year DESC;
     """
