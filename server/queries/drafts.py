@@ -9,6 +9,7 @@ def get_draft_by_year() -> str:
         p.canonical_name,
         p.position,
         p.college_or_club,
+        p.nba_stats_id,
         p.undrafted
     
     FROM draft_picks dp

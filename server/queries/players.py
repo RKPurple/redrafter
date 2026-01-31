@@ -6,6 +6,7 @@ def get_player_by_id() -> str:
         p.canonical_name,
         p.position,
         p.college_or_club,
+        p.nba_stats_id,
         p.undrafted
     FROM players p
     WHERE p.id = ?;

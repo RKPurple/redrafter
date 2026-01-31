@@ -4,6 +4,7 @@ type Player = {
   name: string;
   position: string | null;
   college_or_club: string | null;
+  nba_stats_id: number | null;
   undrafted: boolean;
 };
 
@@ -14,6 +15,11 @@ type DraftPick = {
   traded_to: string | null;
   player: Player;
 };
+
+export function getPlayerHeadShot(nbaStatsId: number | null): string {
+  const id = nbaStatsId ?? 0;
+  return `https://cdn.nba.com/headshots/nba/latest/1040x760/${id}.png`;
+}
 
 function App() {
   const [draft, setDraft] = useState<DraftPick[]>([]);
@@ -49,6 +55,10 @@ function App() {
             {pick.player.name} ({pick.player.position ?? "?"}) —{" "}
             {pick.drafted_by ?? "N/A"}
             {pick.traded_to && ` → ${pick.traded_to}`}
+            <img
+              src={getPlayerHeadShot(pick.player.nba_stats_id)}
+              style={{ width: "200px", borderRadius: "8px" }}
+            />
           </li>
         ))}
       </ul>

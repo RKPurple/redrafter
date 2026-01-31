@@ -42,6 +42,7 @@ def draft_by_year(year: int):
                 "name": row["canonical_name"],
                 "position": row["position"],
                 "college_or_club": row["college_or_club"],
+                "nba_stats_id": row["nba_stats_id"],
                 "undrafted": bool(row["undrafted"]),
             },
         }
