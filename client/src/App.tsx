@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import "./global.css"
+import DraftPickCard from "./components/DraftPickCard";
 
 type Player = {
   name: string;
@@ -48,20 +50,21 @@ function App() {
   return (
     <div>
       <h1>2025 NBA Draft</h1>
-      <ul>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {draft.map((pick, idx) => (
-          <li key={idx}>
-            {pick.pick_number ?? "UD"} —{" "}
-            {pick.player.name} ({pick.player.position ?? "?"}) —{" "}
-            {pick.drafted_by ?? "N/A"}
-            {pick.traded_to && ` → ${pick.traded_to}`}
-            <img
-              src={getPlayerHeadShot(pick.player.nba_stats_id)}
-              style={{ width: "200px", borderRadius: "8px" }}
-            />
-          </li>
+          <DraftPickCard
+            key={idx}
+            pickNumber={pick.pick_number}
+            playerName={pick.player.name}
+            playerPosition={pick.player.position}
+            playerCollegeOrClub={pick.player.college_or_club}
+            draftedBy={pick.drafted_by}
+            tradedTo={pick.traded_to}
+            playerNbaStatsId={pick.player.nba_stats_id}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
