@@ -1,3 +1,4 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -23,7 +24,9 @@ def scrape_draft(year):
     soup = BeautifulSoup(html.text, "lxml")
     rows = soup.select("table tr")
 
-    with open(f"../scripts/intermediate/bb_{year}.jsonl", "w", encoding="utf-8") as f:
+    out_dir = f"../scripts/intermediate/{year}"
+    os.makedirs(out_dir, exist_ok=True)
+    with open(f"{out_dir}/bb_{year}.jsonl", "w", encoding="utf-8") as f:
         for row in rows:
             cells = [cell.get_text(strip=True) for cell in row.find_all("td")]
             if not cells or (len(cells) < 4 or cells[2] == ""):
