@@ -1,8 +1,8 @@
 from codecs import lookup
+import argparse
 import unicodedata
 import re
 import json
-from rapidfuzz import process, fuzz
 from nba_api.stats.static import players
 
 def normalize_name(name: str) -> str:
@@ -10,6 +10,7 @@ def normalize_name(name: str) -> str:
     name = unicodedata.normalize("NFKD", name)
     name = name.encode("ascii", "ignore").decode("ascii")
     name = name.lower()
+    name = re.sub(r'\s+(?:i{1,3}|iv|v|vi{0,3}|ix|x|xi{0,3}|xii|xiii)\s*$', '', name)
     name = re.sub(r"\b([a-z])\s+([a-z])\b", r"\1\2", name)
     name = re.sub(r"[^\w\s]", "", name)
     name = re.sub(r"\s+", " ", name)
@@ -72,16 +73,15 @@ def merge(year):
     with open(f"../scripts/overrides/name_overrides.json", encoding="utf-8") as f:
         NAME_OVERRIDES = json.load(f)
 
-    with open(f"../scripts/intermediate/wiki_{year}.jsonl", encoding="utf-8") as f:
+    with open(f"../scripts/intermediate/{year}/wiki_{year}.jsonl", encoding="utf-8") as f:
         for line in f:
             record = json.loads(line)
             key = normalize_name(record["wiki_name"])
             wiki_map[key] = record
-    wiki_keys = list(wiki_map.keys())
     bb_keys = set()
 
     with open(f"../scripts/output/draft_{year}_enriched.jsonl", "w", encoding="utf-8") as out:
-        with open(f"../scripts/intermediate/bb_{year}.jsonl", encoding="utf-8") as bb:
+        with open(f"../scripts/intermediate/{year}/bb_{year}.jsonl", encoding="utf-8") as bb:
             for line in bb:
                 bb_rec = json.loads(line)
                 key = normalize_name(bb_rec["bb_name"])
@@ -90,24 +90,15 @@ def merge(year):
                 bb_keys.add(lookup_key)
                 wiki_rec = wiki_map.get(lookup_key)
                 match_status = "matched"
-
+                
                 if not wiki_rec:
-                    match = process.extractOne(
-                        lookup_key,
-                        wiki_keys,
-                        scorer=fuzz.token_sort_ratio
-                    )
-                    if match and match[1] >= 95:
-                        wiki_rec = wiki_map[match[0]]
-                        match_status = "matched_fuzzy"
-                    else:
-                        match_status = "bb_only"
-
+                    match_status = "bb_only"
+                
                 traded = None
                 if wiki_rec and wiki_rec["traded"]:
                     traded = normalize_team(wiki_rec["traded"])
 
-                nba_stats_id = get_player_id(bb_rec["bb_name"], wiki_rec["wiki_name"])
+                nba_stats_id = get_player_id(bb_rec["bb_name"], wiki_rec["wiki_name"] if wiki_rec else None)
                 merged = {
                     "year": bb_rec["year"],
                     "draft": {
@@ -127,7 +118,7 @@ def merge(year):
                     "match_status": match_status
                 }
                 if not wiki_rec:
-                    print(f"NO MATCH: {bb_rec['bb_name']}")
+                    print(f"NO MATCH: {bb_rec['bb_name']}, Normalized Name: {normalize_name(bb_rec['bb_name'])}")
                 out.write(json.dumps(merged, ensure_ascii=False) + "\n")
 
     with open(f"../scripts/output/draft_{year}_enriched.jsonl", "a", encoding="utf-8") as out:
@@ -155,4 +146,12 @@ def merge(year):
                 out.write(json.dumps(merged, ensure_ascii=False) + "\n")
 
 if __name__ == "__main__":
-    merge(2025)
+    parser = argparse.ArgumentParser(description="Merge basketball-reference and Wikipedia draft data for a given year.")
+    parser.add_argument(
+        "-y", "--year",
+        type=int,
+        default=2025,
+        help="Draft year to merge (default: 2025)",
+    )
+    args = parser.parse_args()
+    merge(args.year)
