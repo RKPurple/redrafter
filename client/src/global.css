@@ -64,3 +64,14 @@
     --nba-grad-start: #1D428A;
     --nba-grad-end: #FFFFFF;
 }
+
+@font-face {
+	font-family: 'Ferry';
+	src: url('Ferry-Black.eot');
+	src: local('Ferry Black'), local('Ferry-Black'),
+		url('Ferry-Black.eot?#iefix') format('embedded-opentype'),
+		url('Ferry-Black.woff') format('woff'),
+		url('Ferry-Black.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+}

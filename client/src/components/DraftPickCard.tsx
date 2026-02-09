@@ -56,22 +56,24 @@ function DraftPickCard({
                     className="primary-logo"
                     src={`/src/assets/teams/${abbr}.svg`}
                     alt={abbr}
-                />
+                    />
                 {/* Shown only for traded players */}
                 {tradedTo && draftedBy && (
                     <img
-                        className="secondary-logo"
-                        src={`/src/assets/teams/${draftedBy}.svg`}
-                        alt={draftedBy}
+                    className="secondary-logo"
+                    src={`/src/assets/teams/${draftedBy}.svg`}
+                    alt={draftedBy}
                     />
                 )}
             </div>
             {/* Player Headshot */}
-            <img
-                className="player-headshot"
-                src={headshotSrc}
-                alt={'https://cdn.nba.com/headshots/nba/latest/1040x760/0.png'}
-            />
+            <div className="player-headshot-wrapper">
+                <img
+                    className="player-headshot"
+                    src={headshotSrc}
+                    alt={'https://cdn.nba.com/headshots/nba/latest/1040x760/0.png'}
+                    />
+            </div>
         </div>
     )
 };
