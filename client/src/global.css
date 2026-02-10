@@ -75,3 +75,13 @@
 	font-weight: 900;
 	font-style: normal;
 }
+
+@font-face {
+    font-family: "Knockout-HTF51-Middleweight";
+    src: url("https://db.onlinewebfonts.com/t/0180179500cb7a59ef419187221b99cc.eot");
+    src: url("https://db.onlinewebfonts.com/t/0180179500cb7a59ef419187221b99cc.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/0180179500cb7a59ef419187221b99cc.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/0180179500cb7a59ef419187221b99cc.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/0180179500cb7a59ef419187221b99cc.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/0180179500cb7a59ef419187221b99cc.svg#Knockout-HTF51-Middleweight")format("svg");
+}
