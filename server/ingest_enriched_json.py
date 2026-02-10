@@ -112,5 +112,5 @@ def ingest(file_path: Path):
     conn.commit()
 
 if __name__ == "__main__":
-    ingest(Path("../scripts/output/draft_2025_enriched.jsonl"))
+    ingest(Path("../scripts/output/draft_2024_enriched.jsonl"))
     print("Ingestion complete :)")

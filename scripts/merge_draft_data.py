@@ -14,6 +14,7 @@ def normalize_name(name: str) -> str:
     name = re.sub(r"\b([a-z])\s+([a-z])\b", r"\1\2", name)
     name = re.sub(r"[^\w\s]", "", name)
     name = re.sub(r"\s+", " ", name)
+    name = re.sub(r"\bdj", "d", name)
     return name.strip()
 
 def normalize_team(city: str) -> str:
@@ -93,6 +94,13 @@ def merge(year):
                 
                 if not wiki_rec:
                     match_status = "bb_only"
+                    print(f"NO MATCH: {bb_rec['bb_name']}, Normalized BB_Name: {normalize_name(bb_rec['bb_name'])}")
+                    f'''
+                        Print the names of wiki rec and bb_name normalization
+                        Keys in name_overrides.json = normalized basketball-reference names.
+                        Values = strings whose normalized form is the key used to look up in wiki_map (i.e. the wiki-side normalized name you want to match).
+                        So name_overrides = “when BB normalizes to X, look up wiki under the normalized form of Y instead of X.”
+                    '''
                 
                 traded = None
                 if wiki_rec and wiki_rec["traded"]:
@@ -117,8 +125,6 @@ def merge(year):
                     },
                     "match_status": match_status
                 }
-                if not wiki_rec:
-                    print(f"NO MATCH: {bb_rec['bb_name']}, Normalized Name: {normalize_name(bb_rec['bb_name'])}")
                 out.write(json.dumps(merged, ensure_ascii=False) + "\n")
 
     with open(f"../scripts/output/draft_{year}_enriched.jsonl", "a", encoding="utf-8") as out:
