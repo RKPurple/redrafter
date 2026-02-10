@@ -23,21 +23,64 @@
   align-items: center;
   padding: 16px 24px;
   font-family: "Ferry", sans-serif;
-  z-index: 2;
+  z-index: 1;
+}
+
+.selection-number-wrapper {
+  width: 140px; /* Match team logo width */
+  text-align: center;
+  margin-top: -50px; /* Nudge pick number upward */
 }
 
 .selection-number {
-  font-size: 42px;
+  position: relative; /* needed for ::before pseudo-element */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 16px 6px; /* better optical centering */
+  font-size: 48px;
   font-weight: 900;
-  letter-spacing: 0.5px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-family: "Knockout-HTF51-Middleweight", sans-serif;
+  letter-spacing: -0.5px;
+  text-shadow: 
+    0 2px 12px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.8); /* deeper shadow for better contrast */
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45); /* darker for better contrast */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient ring effect */
+.selection-number::before {
+  content: '';
+  position: absolute;
+  inset: -3px; /* distance from badge - controls ring thickness */
+  border-radius: 999px;
+  padding: 3px; /* actual ring thickness */
+  background: var(--ring-color); /* solid color instead of gradient */
+  /* CSS mask technique to create hollow ring */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0.9;
+  z-index: -1;
 }
 
 .player-meta {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 4px;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .player-name {
@@ -53,6 +96,24 @@
   font-weight: 700;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5)
+}
+
+.player-pre-draft {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4))
+          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.player-pre-draft-text {
+  font-size: 16px;          /* smaller than name/position */
+  font-weight: 500;
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  max-height: 2.4em;
+  overflow: hidden;
 }
 
 /* ---------------- Team Logos ---------------- */

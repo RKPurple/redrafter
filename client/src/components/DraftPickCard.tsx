@@ -1,4 +1,5 @@
 import "./DraftPickCard.css";
+import React, { useState } from "react";
 
 
 type DraftPickCardProps = {
@@ -20,9 +21,11 @@ function DraftPickCard({
     tradedTo,
     playerNbaStatsId,
 }: DraftPickCardProps) {
+    const [preDraftImageError, setPreDraftImageError] = useState(false);
     const displayTeam = tradedTo ?? draftedBy ?? "NBA";
     const abbr = displayTeam.toLowerCase();
     const headshotSrc = `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerNbaStatsId ?? 0}.png`;
+    const playerPreDraft = playerCollegeOrClub?.toLowerCase()
     const style: React.CSSProperties = {
         background: `linear-gradient(
             90deg,
@@ -30,13 +33,18 @@ function DraftPickCard({
             var(--${abbr}-grad-end)
         )`,
     }
+    const badgeStyle: React.CSSProperties = {
+        '--ring-color': `var(--${abbr}-grad-end)`,
+    } as React.CSSProperties;
     const pickLabel = pickNumber === null ? "UDFA" : `#${pickNumber}`;
     return (
         <div className="draft-card" style={style}>
             {/* Header Text */}
             <div className="draft-card-header">
-                <div className="selection-number">
-                    {pickLabel}
+                <div className="selection-number-wrapper">
+                    <div className="selection-number" style={badgeStyle}>
+                        {pickLabel}
+                    </div>
                 </div>
                 <div className="player-meta">
                     <span className="player-name">
@@ -47,6 +55,20 @@ function DraftPickCard({
                             {playerPosition}
                         </span>
                     )}
+                    {playerCollegeOrClub && !preDraftImageError ? (
+                        <img
+                            className="player-pre-draft"
+                            src={`/src/assets/pre-draft-teams/${playerPreDraft}.svg`}
+                            onError={() => setPreDraftImageError(true)}
+                        />
+                    ) : (
+                        playerCollegeOrClub && (
+                            <span className="player-pre-draft-text">
+                                {playerCollegeOrClub}
+                            </span>
+                        )
+                    )}
+
                 </div>
             </div>
             {/* Team Logos Container */}
