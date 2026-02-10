@@ -23,7 +23,7 @@
   align-items: center;
   padding: 16px 24px;
   font-family: "Ferry", sans-serif;
-  z-index: 1;
+  z-index: 4;
 }
 
 .selection-number-wrapper {
@@ -37,7 +37,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 16px 6px; /* better optical centering */
+  padding: 0px 16px 2px; /* better optical centering */
   font-size: 48px;
   font-weight: 900;
   font-family: "Knockout-HTF51-Middleweight", sans-serif;
@@ -98,12 +98,57 @@
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5)
 }
 
+.player-pre-draft-container {
+  position: relative;
+  display: inline-block;
+}
+
 .player-pre-draft {
-  height: 36px;
+  max-height: 45px;
+  max-width: 75px;
+  height: auto;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4))
+  cursor: pointer;
+  transition: filter 0.2s ease;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6))
           drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.player-pre-draft:hover {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8))
+          drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.player-pre-draft-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.player-pre-draft-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 12px;
+  border: 6px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.player-pre-draft-container:hover .player-pre-draft-tooltip {
+  opacity: 1;
 }
 
 .player-pre-draft-text {

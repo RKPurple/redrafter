@@ -25,7 +25,7 @@ function DraftPickCard({
     const displayTeam = tradedTo ?? draftedBy ?? "NBA";
     const abbr = displayTeam.toLowerCase();
     const headshotSrc = `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerNbaStatsId ?? 0}.png`;
-    const playerPreDraft = playerCollegeOrClub?.toLowerCase()
+    const playerPreDraft = playerCollegeOrClub?.toLowerCase().replace(/\s+/g, '').replace(/['.]/g, '')
     const style: React.CSSProperties = {
         background: `linear-gradient(
             90deg,
@@ -56,11 +56,17 @@ function DraftPickCard({
                         </span>
                     )}
                     {playerCollegeOrClub && !preDraftImageError ? (
-                        <img
-                            className="player-pre-draft"
-                            src={`/src/assets/pre-draft-teams/${playerPreDraft}.svg`}
-                            onError={() => setPreDraftImageError(true)}
-                        />
+                        <div className="player-pre-draft-container">
+                            <img
+                                className="player-pre-draft"
+                                src={`/src/assets/pre-draft-teams/${playerPreDraft}.svg`}
+                                onError={() => setPreDraftImageError(true)}
+                                alt={playerCollegeOrClub}
+                            />
+                            <span className="player-pre-draft-tooltip">
+                                {playerCollegeOrClub}
+                            </span>
+                        </div>
                     ) : (
                         playerCollegeOrClub && (
                             <span className="player-pre-draft-text">
