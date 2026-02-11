@@ -1,6 +1,13 @@
 # Return the draft info for a specific year
-def get_draft_by_year() -> str:
-    return """
+# draft_filter: None/"all" = all picks, "drafted" = drafted only, "undrafted" = undrafted only
+def get_draft_by_year(draft_filter: str | None = None) -> str:
+    undrafted_condition = ""
+    if draft_filter == "drafted":
+        undrafted_condition = " AND p.undrafted = 0"
+    elif draft_filter == "undrafted":
+        undrafted_condition = " AND p.undrafted = 1"
+    
+    return f"""
     SELECT
         d.year,
         dp.pick_number,
@@ -19,7 +26,7 @@ def get_draft_by_year() -> str:
     LEFT JOIN teams drafted ON dp.drafted_by_team_id = drafted.id
     LEFT JOIN teams traded ON dp.traded_to_team_id = traded.id
 
-    WHERE d.year = ?
+    WHERE d.year = ?{undrafted_condition}
     ORDER BY
         CASE WHEN dp.pick_number IS NULL THEN 1 ELSE 0 END,
         dp.pick_number;

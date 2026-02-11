@@ -2,8 +2,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 from pathlib import Path
+from typing import Literal
 
-from queries.drafts import get_draft_by_year
+from queries.drafts import get_all_draft_years, get_draft_by_year
 
 DB_PATH = Path("db/nba.db")
 app = FastAPI(title="NBA Redraft API")
@@ -21,11 +22,15 @@ def get_db():
     return conn
 
 @app.get("/drafts/{year}")
-def draft_by_year(year: int):
+def draft_by_year(
+    year: int,
+    draft_filter: Literal["all", "drafted", "undrafted"] | None = None,
+):
     conn = get_db()
     cur = conn.cursor()
+    draft_filter = draft_filter if draft_filter else "all"
 
-    cur.execute(get_draft_by_year(), (year,))
+    cur.execute(get_draft_by_year(draft_filter), (year,))
     rows = cur.fetchall()
     conn.close()
 
@@ -47,4 +52,19 @@ def draft_by_year(year: int):
             },
         }
         for row in rows
+    ]
+
+@app.get("/draft-years")
+def draft_years():
+    conn = get_db()
+    cur=conn.cursor()
+    cur.execute(get_all_draft_years())
+    rows = cur.fetchall()
+    conn.close()
+    
+    if not rows:
+        raise HTTPException(status_code=404, detail="No Draft Data Available")
+
+    return [
+        row["year"] for row in rows
     ]

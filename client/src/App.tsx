@@ -18,23 +18,46 @@ type DraftPick = {
   player: Player;
 };
 
+type DraftFilter = "all" | "drafted" | "undrafted";
+
 export function getPlayerHeadShot(nbaStatsId: number | null): string {
   const id = nbaStatsId ?? 0;
   return `https://cdn.nba.com/headshots/nba/latest/1040x760/${id}.png`;
 }
-
-const DRAFT_YEARS = [2025, 2024]
 
 function App() {
   const [draft, setDraft] = useState<DraftPick[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2025);
+  const [draftYears, setDraftYears] = useState<number[]>([]);
+  const [draftFilter, setDraftFilter] = useState<DraftFilter>("all");
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/draft-years")
+      .then((res) => {
+        if(!res.ok) throw new Error("Failed to fetch draft years");
+        return res.json();
+      })
+      .then((data: number[]) => {
+        setDraftYears(data);
+        if (data.length > 0) {
+          setSelectedYear((prev) => (data.includes(prev) ? prev : data[0]));
+        }
+      })
+      .catch((err: Error) => {
+        console.error(err);
+        setDraftYears([]);
+      });
+  }, []);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch(`http://127.0.0.1:8000/drafts/${selectedYear}`)
+    const params = new URLSearchParams();
+    if (draftFilter !== "all") params.set("draft_filter", draftFilter);
+    const query = params.toString();
+    fetch(`http://127.0.0.1:8000/drafts/${selectedYear}${query ? `?${query}` : ""}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch draft");
         return res.json();
@@ -47,7 +70,7 @@ function App() {
         setError(err.message);
         setLoading(false);
       });
-  }, [selectedYear]);
+  }, [selectedYear, draftFilter]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -63,10 +86,13 @@ function App() {
           onChange={(e) => setSelectedYear(Number(e.target.value))}
           style={{ padding: "0.35rem 0.5rem", fontSize: "1rem", cursor: "pointer" }}
         >
-          {DRAFT_YEARS.map((year) => (
+          {draftYears.map((year) => (
             <option key={year} value={year}>{year}</option>
           ))}
         </select>
+        <button onClick={() => setDraftFilter("all")}>All</button>
+        <button onClick={() => setDraftFilter("drafted")}>drafted only</button>
+        <button onClick={() => setDraftFilter("undrafted")}>undrafted only</button>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
