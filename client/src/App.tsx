@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./global.css"
 import DraftPickCard from "./components/DraftPickCard";
+import EmptyPickCard from "./components/EmptyPickCard";
 
 type Player = {
   name: string;
@@ -75,6 +76,13 @@ function App() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  const draftOrder = draft
+    .filter(pick => pick.pick_number !== null && pick.drafted_by !== null)
+    .map(pick => ({
+      pick_number: pick.pick_number!,
+      drafted_by: pick.drafted_by!
+    }));
+
   return (
     <div>
       <h1>{selectedYear} NBA Draft</h1>
@@ -94,20 +102,30 @@ function App() {
         <button onClick={() => setDraftFilter("drafted")}>drafted only</button>
         <button onClick={() => setDraftFilter("undrafted")}>undrafted only</button>
       </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        {draft.map((pick, idx) => (
-          <DraftPickCard
-            key={idx}
-            pickNumber={pick.pick_number}
-            playerName={pick.player.name}
-            playerPosition={pick.player.position}
-            playerCollegeOrClub={pick.player.college_or_club}
-            draftedBy={pick.drafted_by}
-            tradedTo={pick.traded_to}
-            playerNbaStatsId={pick.player.nba_stats_id}
-          />
-        ))}
+      <div style={{ display: "flex", flexDirection: "row"}}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {draft.map((pick, idx) => (
+            <DraftPickCard
+              key={idx}
+              pickNumber={pick.pick_number}
+              playerName={pick.player.name}
+              playerPosition={pick.player.position}
+              playerCollegeOrClub={pick.player.college_or_club}
+              draftedBy={pick.drafted_by}
+              tradedTo={pick.traded_to}
+              playerNbaStatsId={pick.player.nba_stats_id}
+            />
+          ))}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "auto" }}>
+          {draftOrder.map((pick, idx) => (
+            <EmptyPickCard
+              key={idx}
+              pickNumber={pick.pick_number}
+              selectionTeam={pick.drafted_by}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
