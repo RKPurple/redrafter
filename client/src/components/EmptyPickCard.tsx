@@ -7,6 +7,7 @@ type EmptyPickCardProps = {
     assignedPlayer: { name: string; position: string | null; nbaStatsId: number | null } | null;
     isSelectionActive: boolean;
     onClick: () => void;
+    onUnassign: () => void;
 }
 
 function EmptyPickCard({
@@ -15,6 +16,7 @@ function EmptyPickCard({
     assignedPlayer,
     isSelectionActive,
     onClick,
+    onUnassign,
 }: EmptyPickCardProps) {
     const abbr = selectionTeam?.toLowerCase() ?? "nba";
     const style: React.CSSProperties = {
@@ -46,6 +48,12 @@ function EmptyPickCard({
                                 <span className="assigned-player-position">{assignedPlayer.position}</span>
                             )}
                         </div>
+                        <button
+                            className="unassign-btn"
+                            onClick={(e) => { e.stopPropagation(); onUnassign(); }}
+                        >
+                            ✕
+                        </button>
                         <img
                             className="assigned-player-headshot"
                             src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${assignedPlayer.nbaStatsId ?? 0}.png`}

@@ -97,6 +97,14 @@ function App() {
     setSelectedPickIdx(null);
   }
 
+  function handleUnassign(pickNumber: number) {
+    setAssignments(prev => {
+      const next = { ...prev };
+      delete next[pickNumber];
+      return next;
+    });
+  }
+
   return (
     <div>
       <h1>{selectedYear} NBA Draft</h1>
@@ -151,6 +159,7 @@ function App() {
                     }
                   : null
               }
+              onUnassign={() => handleUnassign(pick.pick_number)}
             />
           ))}
         </div>
