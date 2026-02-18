@@ -1,7 +1,7 @@
 .empty-card {
     position: relative;
     width: 100%;
-    height: 130px;
+    height: 100px;
     border-radius: 12px;
     overflow: hidden;
     box-sizing: border-box;
@@ -53,6 +53,12 @@
     mask-composite: exclude;
     opacity: 0.9;
     z-index: -1;
+}
+
+.drafting-team-logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .drafting-team-logo img {
