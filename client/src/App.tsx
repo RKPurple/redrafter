@@ -102,7 +102,7 @@ function App() {
         <button onClick={() => setDraftFilter("drafted")}>drafted only</button>
         <button onClick={() => setDraftFilter("undrafted")}>undrafted only</button>
       </div>
-      <div style={{ display: "flex", flexDirection: "row"}}>
+      <div style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {draft.map((pick, idx) => (
             <DraftPickCard
@@ -117,7 +117,7 @@ function App() {
             />
           ))}
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "auto" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "600px", position: "absolute", right: "20px" }}>
           {draftOrder.map((pick, idx) => (
             <EmptyPickCard
               key={idx}

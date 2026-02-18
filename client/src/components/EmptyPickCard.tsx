@@ -24,8 +24,16 @@ function EmptyPickCard({
 
     return (
         <div className="empty-card" style={style}>
-            <div className="selection-number">
-                #{pickNumber}
+            <div className="empty-card-content">
+                <div className="selection-number" style={badgeStyle}>
+                    #{pickNumber}
+                </div>
+                <div className="drafting-team-logo">
+                    <img 
+                        src={`/src/assets/teams/${abbr}.svg`} 
+                        alt={abbr}                     
+                        />
+                </div>
             </div>
         </div>
     )
