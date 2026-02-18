@@ -33,6 +33,8 @@ function App() {
   const [selectedYear, setSelectedYear] = useState<number>(2025);
   const [draftYears, setDraftYears] = useState<number[]>([]);
   const [draftFilter, setDraftFilter] = useState<DraftFilter>("all");
+  const [selectedPickIdx, setSelectedPickIdx] = useState<number | null>(null);
+  const [assignments, setAssignments] = useState<Record<number, number>>({});
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/draft-years")
@@ -83,6 +85,18 @@ function App() {
       drafted_by: pick.drafted_by!
     }));
 
+  function handleDraftPickClick(idx: number) {
+    const isPlaced = Object.values(assignments).includes(idx);
+    if (isPlaced) return;
+    setSelectedPickIdx(prev => prev === idx ? null : idx);
+  }
+
+  function handleEmptyPickClick(pickNumber: number) {
+    if (selectedPickIdx === null) return;
+    setAssignments(prev => ({ ...prev, [pickNumber]: selectedPickIdx }));
+    setSelectedPickIdx(null);
+  }
+
   return (
     <div>
       <h1>{selectedYear} NBA Draft</h1>
@@ -114,6 +128,9 @@ function App() {
               draftedBy={pick.drafted_by}
               tradedTo={pick.traded_to}
               playerNbaStatsId={pick.player.nba_stats_id}
+              isSelected={selectedPickIdx === idx}
+              isPlaced={Object.values(assignments).includes(idx)}
+              onClick={() => handleDraftPickClick(idx)}
             />
           ))}
         </div>
@@ -123,6 +140,17 @@ function App() {
               key={idx}
               pickNumber={pick.pick_number}
               selectionTeam={pick.drafted_by}
+              isSelectionActive={selectedPickIdx !== null}
+              onClick={() => handleEmptyPickClick(pick.pick_number)}
+              assignedPlayer={
+                assignments[pick.pick_number] !== undefined
+                  ? {
+                      name: draft[assignments[pick.pick_number]].player.name,
+                      position: draft[assignments[pick.pick_number]].player.position,
+                      nbaStatsId: draft[assignments[pick.pick_number]].player.nba_stats_id,
+                    }
+                  : null
+              }
             />
           ))}
         </div>

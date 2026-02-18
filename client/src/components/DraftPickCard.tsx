@@ -10,6 +10,9 @@ type DraftPickCardProps = {
     draftedBy: string | null;
     tradedTo: string | null;
     playerNbaStatsId: number | null;
+    isSelected: boolean;
+    isPlaced: boolean;
+    onClick: () => void;
 }
 
 function DraftPickCard({
@@ -20,6 +23,9 @@ function DraftPickCard({
     draftedBy,
     tradedTo,
     playerNbaStatsId,
+    isSelected,
+    isPlaced,
+    onClick,
 }: DraftPickCardProps) {
     const [preDraftImageError, setPreDraftImageError] = useState(false);
     const displayTeam = tradedTo ?? draftedBy ?? "NBA";
@@ -38,7 +44,11 @@ function DraftPickCard({
     } as React.CSSProperties;
     const pickLabel = pickNumber === null ? "UDFA" : `#${pickNumber}`;
     return (
-        <div className="draft-card" style={style}>
+        <div 
+            className={`draft-card${isSelected ? " selected" : ""}${isPlaced ? " placed" : ""}`}
+            style={style}
+            onClick={onClick}
+        >    
             {/* Header Text */}
             <div className="draft-card-header">
                 <div className="selection-number-wrapper">

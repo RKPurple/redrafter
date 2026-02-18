@@ -8,9 +8,22 @@
   overflow: auto;
   box-sizing: border-box;
   color: white;
+  cursor: pointer;
   /* border: 3px solid rgba(255, 255, 255, 0.15); */
   --header-height: 60px;
+}
 
+.draft-card.selected {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  z-index: 2;
+}
+
+.draft-card.placed {
+  opacity: 0.45;
+  filter: grayscale(40%);
+  cursor: not-allowed;
 }
 
 /* ---------------- Header ---------------- */
