@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./global.css"
 import DraftPickCard from "./components/DraftPickCard";
 import EmptyPickCard from "./components/EmptyPickCard";
+import RedraftedPickCard from "./components/RedraftedPickCard";
 
 type Player = {
   name: string;
@@ -143,25 +144,33 @@ function App() {
           ))}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "600px", position: "absolute", right: "20px" }}>
-          {draftOrder.map((pick, idx) => (
-            <EmptyPickCard
-              key={idx}
-              pickNumber={pick.pick_number}
-              selectionTeam={pick.drafted_by}
-              isSelectionActive={selectedPickIdx !== null}
-              onClick={() => handleEmptyPickClick(pick.pick_number)}
-              assignedPlayer={
-                assignments[pick.pick_number] !== undefined
-                  ? {
-                      name: draft[assignments[pick.pick_number]].player.name,
-                      position: draft[assignments[pick.pick_number]].player.position,
-                      nbaStatsId: draft[assignments[pick.pick_number]].player.nba_stats_id,
-                    }
-                  : null
-              }
-              onUnassign={() => handleUnassign(pick.pick_number)}
-            />
-          ))}
+          {draftOrder.map((pick, idx) => {
+            const assignedDraftIdx = assignments[pick.pick_number];
+            const assignedPlayer = assignedDraftIdx !== undefined ? draft[assignedDraftIdx] : null;
+            return assignedPlayer ? (
+              <RedraftedPickCard
+                key={idx}
+                redraftedPickNumber={pick.pick_number}
+                originalPickNumber={assignedPlayer.pick_number}
+                playerName={assignedPlayer.player.name}
+                playerPosition={assignedPlayer.player.position}
+                playerCollegeOrClub={assignedPlayer.player.college_or_club}
+                reDraftedBy={pick.drafted_by}
+                draftedBy={assignedPlayer.traded_to ?? assignedPlayer.drafted_by ?? "NBA"}
+                playerNbaStatsId={assignedPlayer.player.nba_stats_id}
+                onClick={() => {}}
+                onUnassign={() => handleUnassign(pick.pick_number)}
+              />
+            ) : (
+              <EmptyPickCard
+                key={idx}
+                pickNumber={pick.pick_number}
+                selectionTeam={pick.drafted_by}
+                isSelectionActive={selectedPickIdx !== null}
+                onClick={() => handleEmptyPickClick(pick.pick_number)}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
