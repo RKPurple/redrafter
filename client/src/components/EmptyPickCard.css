@@ -70,13 +70,6 @@
     opacity: 0.75;
 }
 
-/* ---------------- Post Selection Styles ---------------- */
-
-.empty-card {
-    cursor: pointer;
-    transition: outline 0.15s ease, box-shadow 0.15s ease;
-}
-
 .empty-card.droppable {
     outline: 2px dashed rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
@@ -85,48 +78,4 @@
 .empty-card.droppable:hover {
     outline: 2px dashed rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
-}
-
-.empty-card.has-player {
-    outline: 2px solid rgba(255, 255, 255, 0.4);
-    outline-offset: 2px;
-}
-
-.assigned-player {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    overflow: hidden;
-}
-
-.assigned-player-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.assigned-player-name {
-    font-family: "Ferry", sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.assigned-player-position {
-    font-family: "Ferry", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    opacity: 0.8;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.assigned-player-headshot {
-    height: 90px;
-    width: auto;
-    object-fit: contain;
-    object-position: bottom;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }

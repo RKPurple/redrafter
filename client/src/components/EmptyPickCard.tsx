@@ -1,22 +1,18 @@
 import "./EmptyPickCard.css";
-import React, { useState } from "react";
+import React from "react";
 
 type EmptyPickCardProps = {
     pickNumber: number | null;
     selectionTeam: string | null;
-    assignedPlayer: { name: string; position: string | null; nbaStatsId: number | null } | null;
     isSelectionActive: boolean;
     onClick: () => void;
-    onUnassign: () => void;
 }
 
 function EmptyPickCard({
     pickNumber,
     selectionTeam,
-    assignedPlayer,
     isSelectionActive,
     onClick,
-    onUnassign,
 }: EmptyPickCardProps) {
     const abbr = selectionTeam?.toLowerCase() ?? "nba";
     const style: React.CSSProperties = {
@@ -32,7 +28,7 @@ function EmptyPickCard({
 
     return (
         <div
-            className={`empty-card${assignedPlayer ? " has-player" : ""}${isSelectionActive && !assignedPlayer ? " droppable" : ""}`}
+            className={`empty-card${isSelectionActive ? " droppable" : ""}`}
             style={style}
             onClick={onClick}
         >
@@ -40,34 +36,12 @@ function EmptyPickCard({
                 <div className="selection-number" style={badgeStyle}>
                     #{pickNumber}
                 </div>
-                {assignedPlayer ? (
-                    <div className="assigned-player">
-                        <div className="assigned-player-info">
-                            <span className="assigned-player-name">{assignedPlayer.name}</span>
-                            {assignedPlayer.position && (
-                                <span className="assigned-player-position">{assignedPlayer.position}</span>
-                            )}
-                        </div>
-                        <button
-                            className="unassign-btn"
-                            onClick={(e) => { e.stopPropagation(); onUnassign(); }}
-                        >
-                            ✕
-                        </button>
-                        <img
-                            className="assigned-player-headshot"
-                            src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${assignedPlayer.nbaStatsId ?? 0}.png`}
-                            alt={assignedPlayer.name}
-                        />
-                    </div>
-                ) : (
-                    <div className="drafting-team-logo">
-                        <img
-                            src={`/src/assets/teams/${abbr}.svg`}
-                            alt={abbr}
-                        />
-                    </div>
-                )}
+                <div className="drafting-team-logo">
+                    <img
+                        src={`/src/assets/teams/${abbr}.svg`}
+                        alt={abbr}
+                    />
+                </div>
             </div>
         </div>
     )

@@ -84,7 +84,6 @@ function DraftPickCard({
                             </span>
                         )
                     )}
-
                 </div>
             </div>
             {/* Team Logos Container */}
