@@ -8,6 +8,9 @@
     color: white;
     cursor: pointer;
     transition: outline 0.15s ease, box-shadow 0.15s ease;
+    -webkit-box-shadow:0px 0px 31px 0px var(--glow-color);
+    -moz-box-shadow: 0px 0px 31px 0px var(--glow-color);
+    box-shadow: 0px 0px 31px 0px var(--glow-color);
 }
 
 .redrafted-card-content {
@@ -55,4 +58,68 @@
     mask-composite: exclude;
     opacity: 0.9;
     z-index: -1;
+}
+
+.trend-indicator {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+    min-width: 24px;
+    text-align: center;
+    margin-right: 8px;
+    transition: transform 0.2s ease;
+    transform-origin: center;
+    transform: scale(1);
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    position: relative;
+    top: -2px;
+    margin-left: 4px;
+}
+
+/* ---------------- Team Logos ---------------- */
+
+.logos-container {
+    flex: 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.drafting-team-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    opacity: 0.75;
+}
+
+.original-team-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    opacity: 0.75;
+    position: absolute;
+    bottom: 0;
+    right: -25px;
+}
+
+/* ---------------- Player Headshot ---------------- */
+
+.redrafted-card .player-headshot-wrapper {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+}
+
+.redrafted-card .player-headshot {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: right center;
+    filter: drop-shadow(0)
 }

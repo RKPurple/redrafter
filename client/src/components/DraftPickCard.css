@@ -204,7 +204,7 @@
 
 /* ---------------- Player Headshot ---------------- */
 
-.player-headshot-wrapper {
+.draft-card .player-headshot-wrapper {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -217,7 +217,7 @@
   overflow: hidden;
 }
 
-.player-headshot {
+.draft-card .player-headshot {
   height: 100%;
   width: auto;
   object-fit: contain;

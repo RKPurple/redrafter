@@ -63,6 +63,11 @@
     --was-grad-end: #002B5C;
     --nba-grad-start: #1D428A;
     --nba-grad-end: #FFFFFF;
+
+    /* Redrafted Pick Change Colors */
+    --redraft-riser: #0dff00;
+    --redraft-faller: #ff0000;
+    --redraft-unchanged: #757575;
 }
 
 @font-face {
