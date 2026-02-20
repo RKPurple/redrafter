@@ -1,0 +1,93 @@
+.placed-card {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-sizing: border-box;
+    color: white;
+    cursor: not-allowed;
+    transition: outline 0.15s ease, box-shadow 0.15s ease;
+    filter: grayscale(50%);
+    opacity: 0.45;
+}
+
+.placed-card-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 0px 16px;
+    height: 100%;
+    z-index: 1;
+}
+
+.placed-card .selection-number {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 16px 2px;
+    font-size: 48px;
+    font-weight: 900;
+    font-family: "Knockout-HTF51-Middleweight", sans-serif;
+    letter-spacing: -0.5px;
+    text-shadow: 
+        0 2px 12px rgba(0, 0, 0, 0.6),
+        0 1px 3px rgba(0, 0, 0, 0.8);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.placed-card .selection-number::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    padding: 3px;
+    background: var(--ring-color);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.9;
+    z-index: -1;
+}
+
+.placed-card .team-logos-container {
+    flex: 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.placed-card .primary-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    opacity: 0.75;
+}
+
+.placed-card .secondary-logo {
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    width: 50%;
+    height: 50%;
+    opacity: 0.5;
+}
+
+.placed-card .player-name {
+    font-family: "Ferry", sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}

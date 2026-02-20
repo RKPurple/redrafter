@@ -3,6 +3,8 @@ import "./global.css"
 import DraftPickCard from "./components/DraftPickCard";
 import EmptyPickCard from "./components/EmptyPickCard";
 import RedraftedPickCard from "./components/RedraftedPickCard";
+import PlacedPickCard from "./components/PlacedPickCard";
+
 
 type Player = {
   name: string;
@@ -127,21 +129,31 @@ function App() {
       </div>
       <div style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {draft.map((pick, idx) => (
-            <DraftPickCard
-              key={idx}
-              pickNumber={pick.pick_number}
-              playerName={pick.player.name}
-              playerPosition={pick.player.position}
-              playerCollegeOrClub={pick.player.college_or_club}
-              draftedBy={pick.drafted_by}
-              tradedTo={pick.traded_to}
-              playerNbaStatsId={pick.player.nba_stats_id}
-              isSelected={selectedPickIdx === idx}
-              isPlaced={Object.values(assignments).includes(idx)}
-              onClick={() => handleDraftPickClick(idx)}
-            />
-          ))}
+          {draft.map((pick, idx) => {
+            const isPlaced = Object.values(assignments).includes(idx);
+            return isPlaced ? (
+              <PlacedPickCard
+                key={idx}
+                pickNumber={pick.pick_number}
+                playerName={pick.player.name}
+                draftedBy={pick.drafted_by}
+                tradedTo={pick.traded_to}
+              />
+            ) : (
+              <DraftPickCard
+                key={idx}
+                pickNumber={pick.pick_number}
+                playerName={pick.player.name}
+                playerPosition={pick.player.position}
+                playerCollegeOrClub={pick.player.college_or_club}
+                draftedBy={pick.drafted_by}
+                tradedTo={pick.traded_to}
+                playerNbaStatsId={pick.player.nba_stats_id}
+                isSelected={selectedPickIdx === idx}
+                onClick={() => handleDraftPickClick(idx)}
+              />
+            );
+          })}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "600px", position: "absolute", right: "20px" }}>
           {draftOrder.map((pick, idx) => {

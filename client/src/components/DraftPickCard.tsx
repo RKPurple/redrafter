@@ -11,7 +11,6 @@ type DraftPickCardProps = {
     tradedTo: string | null;
     playerNbaStatsId: number | null;
     isSelected: boolean;
-    isPlaced: boolean;
     onClick: () => void;
 }
 
@@ -24,7 +23,6 @@ function DraftPickCard({
     tradedTo,
     playerNbaStatsId,
     isSelected,
-    isPlaced,
     onClick,
 }: DraftPickCardProps) {
     const [preDraftImageError, setPreDraftImageError] = useState(false);
@@ -45,7 +43,7 @@ function DraftPickCard({
     const pickLabel = pickNumber === null ? "UDFA" : `#${pickNumber}`;
     return (
         <div 
-            className={`draft-card${isSelected ? " selected" : ""}${isPlaced ? " placed" : ""}`}
+            className={`draft-card${isSelected ? " selected" : ""}`}
             style={style}
             onClick={onClick}
         >    
