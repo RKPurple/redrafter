@@ -84,15 +84,37 @@ function RedraftedPickCard({
                         src={`/src/assets/teams/${redraftedAbbr}.svg`}
                         alt={redraftedAbbr}
                     />
-                    {/* Original Player Team Logo (Only if different from drafting team)*/}
-                    {originalAbbr !== redraftedAbbr && (
-                        <img
-                            className="original-team-logo"
-                            src={`/src/assets/teams/${originalAbbr}.svg`}
-                            alt={originalAbbr}
-                        />
-                    )}
                 </div>
+                {/* Player Info */}
+                <div className="player-info">
+                    <span className="player-name">
+                        {playerName ?? "Unknown"}
+                    </span>
+                    <div className="player-secondary-info">
+                        <span className="player-position">
+                            {playerPosition ?? "Unknown"}
+                        </span>
+                        {playerCollegeOrClub && !preDraftImageError ? (
+                            <div className="player-pre-draft-container">
+                                <img 
+                                    className="player-college-or-club"
+                                    src={`/src/assets/pre-draft-teams/${playerPreDraft}.svg`}
+                                    alt={playerCollegeOrClub ?? "Unknown"}
+                                />
+                                <span className="player-pre-draft-tooltip">
+                                    {playerCollegeOrClub}
+                                </span>
+                            </div>
+                        ) : (
+                            playerCollegeOrClub && (
+                                <span className="player-pre-draft-text">
+                                    {playerCollegeOrClub}
+                                </span>
+                            )
+                        )}
+                    </div>
+                </div>
+                
                 {/* Player Headshot */}
                 <div className="player-headshot-wrapper">
                     <img
@@ -100,6 +122,12 @@ function RedraftedPickCard({
                         src={headshotSrc}
                         alt={'https://cdn.nba.com/headshots/nba/latest/1040x760/0.png'}
                     />
+                </div>
+                {/* Unassign Button */}
+                <div className="unassign-button-container">
+                    <button className="unassign-button" onClick={(e) => { e.stopPropagation(); onUnassign(); }}>
+                        x
+                    </button>
                 </div>
             </div>
         </div>
