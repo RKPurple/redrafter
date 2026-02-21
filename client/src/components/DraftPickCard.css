@@ -1,5 +1,18 @@
 /* DraftPickCard.css */
 
+@keyframes draftCard {
+  from {
+      height: 100px;
+      filter: grayscale(50%);
+      opacity: 0.45;
+  }
+  to {
+      height: 300px;
+      filter: grayscale(0%);
+      opacity: 1;
+  }
+}
+
 .draft-card {
   position: relative;
   width: 100%;
@@ -9,7 +22,7 @@
   box-sizing: border-box;
   color: white;
   cursor: pointer;
-  /* border: 3px solid rgba(255, 255, 255, 0.15); */
+  animation: draftCard 0.3s ease-in-out;
   --header-height: 60px;
 }
 
