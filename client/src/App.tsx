@@ -111,66 +111,73 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Header */}
       <div className="app-header">
         <YearSelector years={draftYears} selectedYear={selectedYear} onChange={setSelectedYear} />
         <h1>NBA ReDraft</h1>
       </div>
-      <div>
-        <div>
-          {draft.map((pick, idx) => {
-            const isPlaced = Object.values(assignments).includes(idx);
-            return isPlaced ? (
-              <PlacedPickCard
-                key={idx}
-                pickNumber={pick.pick_number}
-                playerName={pick.player.name}
-                draftedBy={pick.drafted_by}
-                tradedTo={pick.traded_to}
-              />
-            ) : (
-              <DraftPickCard
-                key={idx}
-                pickNumber={pick.pick_number}
-                playerName={pick.player.name}
-                playerPosition={pick.player.position}
-                playerCollegeOrClub={pick.player.college_or_club}
-                draftedBy={pick.drafted_by}
-                tradedTo={pick.traded_to}
-                playerNbaStatsId={pick.player.nba_stats_id}
-                isSelected={selectedPickIdx === idx}
-                onClick={() => handleDraftPickClick(idx)}
-              />
-            );
-          })}
+      {/* Draft Picks */}
+      <div className="picks-container">
+        <div className="picks-column-scroll">
+          <div className="original-picks">
+            {draft.map((pick, idx) => {
+              const isPlaced = Object.values(assignments).includes(idx);
+              return isPlaced ? (
+                <PlacedPickCard
+                  key={idx}
+                  pickNumber={pick.pick_number}
+                  playerName={pick.player.name}
+                  draftedBy={pick.drafted_by}
+                  tradedTo={pick.traded_to}
+                />
+              ) : (
+                <DraftPickCard
+                  key={idx}
+                  pickNumber={pick.pick_number}
+                  playerName={pick.player.name}
+                  playerPosition={pick.player.position}
+                  playerCollegeOrClub={pick.player.college_or_club}
+                  draftedBy={pick.drafted_by}
+                  tradedTo={pick.traded_to}
+                  playerNbaStatsId={pick.player.nba_stats_id}
+                  isSelected={selectedPickIdx === idx}
+                  onClick={() => handleDraftPickClick(idx)}
+                />
+              );
+            })}
+          </div>
         </div>
-        <div>
-          {draftOrder.map((pick, idx) => {
-            const assignedDraftIdx = assignments[pick.pick_number];
-            const assignedPlayer = assignedDraftIdx !== undefined ? draft[assignedDraftIdx] : null;
-            return assignedPlayer ? (
-              <RedraftedPickCard
-                key={idx}
-                redraftedPickNumber={pick.pick_number}
-                originalPickNumber={assignedPlayer.pick_number}
-                playerName={assignedPlayer.player.name}
-                playerPosition={assignedPlayer.player.position}
-                playerCollegeOrClub={assignedPlayer.player.college_or_club}
-                reDraftedBy={pick.drafted_by}
-                draftedBy={assignedPlayer.traded_to ?? assignedPlayer.drafted_by ?? "NBA"}
-                playerNbaStatsId={assignedPlayer.player.nba_stats_id}
-                onClick={() => {}}
-                onUnassign={() => handleUnassign(pick.pick_number)}
-              />
-            ) : (
-              <EmptyPickCard
-                key={idx}
-                pickNumber={pick.pick_number}
-                selectionTeam={pick.drafted_by}
-                isSelectionActive={selectedPickIdx !== null}
-                onClick={() => handleEmptyPickClick(pick.pick_number)}
-              />
-            );
-          })}
+        {/* Redrafted Picks */}
+        <div className="picks-column-scroll">
+          <div className="redrafted-picks">
+            {draftOrder.map((pick, idx) => {
+              const assignedDraftIdx = assignments[pick.pick_number];
+              const assignedPlayer = assignedDraftIdx !== undefined ? draft[assignedDraftIdx] : null;
+              return assignedPlayer ? (
+                <RedraftedPickCard
+                  key={idx}
+                  redraftedPickNumber={pick.pick_number}
+                  originalPickNumber={assignedPlayer.pick_number}
+                  playerName={assignedPlayer.player.name}
+                  playerPosition={assignedPlayer.player.position}
+                  playerCollegeOrClub={assignedPlayer.player.college_or_club}
+                  reDraftedBy={pick.drafted_by}
+                  draftedBy={assignedPlayer.traded_to ?? assignedPlayer.drafted_by ?? "NBA"}
+                  playerNbaStatsId={assignedPlayer.player.nba_stats_id}
+                  onClick={() => {}}
+                  onUnassign={() => handleUnassign(pick.pick_number)}
+                />
+              ) : (
+                <EmptyPickCard
+                  key={idx}
+                  pickNumber={pick.pick_number}
+                  selectionTeam={pick.drafted_by}
+                  isSelectionActive={selectedPickIdx !== null}
+                  onClick={() => handleEmptyPickClick(pick.pick_number)}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
