@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import "./global.css"
+import "./App.css"
 import DraftPickCard from "./components/DraftPickCard";
 import EmptyPickCard from "./components/EmptyPickCard";
 import RedraftedPickCard from "./components/RedraftedPickCard";
 import PlacedPickCard from "./components/PlacedPickCard";
-
+import YearSelector from "./components/YearSelector";
 
 type Player = {
   name: string;
@@ -109,26 +110,13 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>{selectedYear} NBA Draft</h1>
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="year-select" style={{ marginRight: "0.5rem" }}>Year: </label>
-        <select
-          id="year-select"
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(Number(e.target.value))}
-          style={{ padding: "0.35rem 0.5rem", fontSize: "1rem", cursor: "pointer" }}
-        >
-          {draftYears.map((year) => (
-            <option key={year} value={year}>{year}</option>
-          ))}
-        </select>
-        <button onClick={() => setDraftFilter("all")}>All</button>
-        <button onClick={() => setDraftFilter("drafted")}>drafted only</button>
-        <button onClick={() => setDraftFilter("undrafted")}>undrafted only</button>
+    <div className="app-container">
+      <div className="app-header">
+        <YearSelector years={draftYears} selectedYear={selectedYear} onChange={setSelectedYear} />
+        <h1>NBA ReDraft</h1>
       </div>
-      <div style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div>
+        <div>
           {draft.map((pick, idx) => {
             const isPlaced = Object.values(assignments).includes(idx);
             return isPlaced ? (
@@ -155,7 +143,7 @@ function App() {
             );
           })}
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "600px", position: "absolute", right: "20px" }}>
+        <div>
           {draftOrder.map((pick, idx) => {
             const assignedDraftIdx = assignments[pick.pick_number];
             const assignedPlayer = assignedDraftIdx !== undefined ? draft[assignedDraftIdx] : null;

@@ -70,6 +70,13 @@
     --redraft-unchanged: #757575;
 }
 
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: #242424;
+}
+
 @font-face {
 	font-family: 'Ferry';
 	src: url('Ferry-Black.eot');
