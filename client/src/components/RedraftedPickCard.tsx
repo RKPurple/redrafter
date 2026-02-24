@@ -12,6 +12,7 @@ type RedraftedPickCardProps = {
     playerNbaStatsId: number | null;
     onClick: () => void;
     onUnassign: () => void;
+    readOnly?: boolean;
 }
 
 function RedraftedPickCard({
@@ -25,6 +26,7 @@ function RedraftedPickCard({
     playerNbaStatsId,
     onClick,
     onUnassign,
+    readOnly = false,
 }: RedraftedPickCardProps) {
     const [preDraftImageError, setPreDraftImageError] = useState(false);
     const redraftedAbbr = reDraftedBy?.toLowerCase() ?? "nba";
@@ -38,6 +40,7 @@ function RedraftedPickCard({
             var(--${redraftedAbbr}-grad-start),
             var(--${redraftedAbbr}-grad-end)
         )`,
+        ...(readOnly && { cursor: 'default' }),
     }
     const badgeStyle: React.CSSProperties = {
         '--ring-color': `var(--${redraftedAbbr}-grad-end)`,
@@ -124,11 +127,13 @@ function RedraftedPickCard({
                     />
                 </div>
                 {/* Unassign Button */}
-                <div className="unassign-button-container">
-                    <button className="unassign-button" onClick={(e) => { e.stopPropagation(); onUnassign(); }}>
-                        x
-                    </button>
-                </div>
+                {!readOnly && (
+                    <div className="unassign-button-container">
+                        <button className="unassign-button" onClick={(e) => { e.stopPropagation(); onUnassign(); }}>
+                            x
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     )

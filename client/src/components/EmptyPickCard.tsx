@@ -6,6 +6,7 @@ type EmptyPickCardProps = {
     selectionTeam: string | null;
     isSelectionActive: boolean;
     onClick: () => void;
+    readOnly?: boolean;
 }
 
 function EmptyPickCard({
@@ -13,6 +14,7 @@ function EmptyPickCard({
     selectionTeam,
     isSelectionActive,
     onClick,
+    readOnly = false,
 }: EmptyPickCardProps) {
     const abbr = selectionTeam?.toLowerCase() ?? "nba";
     const style: React.CSSProperties = {
@@ -28,9 +30,9 @@ function EmptyPickCard({
 
     return (
         <div
-            className={`empty-card${isSelectionActive ? " droppable" : ""}`}
-            style={style}
-            onClick={onClick}
+            className={`empty-card${!readOnly && isSelectionActive ? " droppable" : ""}`}
+            style={{ ...style, ...(readOnly && { cursor: 'default' }) }}
+            onClick={!readOnly ? onClick : undefined}
         >
             <div className="empty-card-content">
                 <div className="selection-number" style={badgeStyle}>
