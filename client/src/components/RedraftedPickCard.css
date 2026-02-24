@@ -257,9 +257,64 @@
     }
     .redrafted-card .player-name {
         font-size: 18px;
+        align-self: center;
     }
 
     .redrafted-card .player-secondary-info {
         display: none;
     }
+}
+
+@container (max-width: 310px) {
+    .redrafted-card-content {
+        display: grid;
+        grid-template-areas:
+            "number trend name name"
+            "logo logo headshot headshot";
+        grid-template-columns: auto auto 1fr 1fr;
+        align-content: center;
+        padding: 6px 8px;
+        gap: 2px 6px;
+    }
+    .redrafted-card .selection-number {
+        grid-area: number;
+        font-size: 22px;
+        padding: 0px 8px 2px;
+        align-self: center;
+    }
+    .trend-indicator {
+        grid-area: trend;
+        font-size: 14px;
+        min-width: 14px;
+        display: inline-block;
+        align-self: center;
+    }
+    .logos-container {
+        grid-area: logo;
+        justify-content: flex-start;
+        align-self: center;
+    }
+    .drafting-team-logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .redrafted-card .player-headshot-wrapper {
+        grid-area: headshot;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .redrafted-card .player-info {
+        grid-area: name;
+        align-items: flex-start;
+    }
+    .redrafted-card .player-name {
+        font-size: 12px;
+        text-align: left;
+    }
+    .redrafted-card .player-secondary-info { display: none; }
 }

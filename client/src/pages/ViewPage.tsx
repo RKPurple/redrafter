@@ -9,9 +9,15 @@ function ViewPage() {
     const { state } = useLocation();
     const { resolvedPicks, assignments, selectedYear, redraftSlots } = state;
     const [viewSlots, setViewSlots] = useState<number | "all">(redraftSlots)
+    const [page, setPage] = useState(0);
+
+    function handleViewSlotsChange(value: number | "all") {
+        setViewSlots(value);
+        setPage(0);
+    }
 
     const visiblePicks = viewSlots === "all"
-        ? resolvedPicks
+        ? resolvedPicks.slice(page * 30, (page + 1) * 30)
         : resolvedPicks.slice(0, viewSlots);
     
     return (
@@ -22,7 +28,7 @@ function ViewPage() {
                 </div>
                 <h1>{selectedYear} Redrafted</h1>
                 <div className="view-page-header-right">
-                    <select value={viewSlots} onChange={e => setViewSlots(e.target.value === "all" ? "all" : Number(e.target.value))}>
+                    <select value={viewSlots} onChange={e => handleViewSlotsChange(e.target.value === "all" ? "all" : Number(e.target.value))}>
                         <option value="all">All</option>
                         <option value={5}>Top 5</option>
                         <option value={14}>Lottery Picks</option>
@@ -62,6 +68,13 @@ function ViewPage() {
                     )}
                 </div>
             </div>
+            {viewSlots === "all" && (
+                <div className="view-pagination">
+                    <button onClick={() => setPage(p => p - 1)} disabled={page === 0}>← Prev</button>
+                    <span>{page === 0 ? "1st Round" : page === 1 ? "2nd Round" : `Picks ${page * 30 + 1}–${Math.min((page + 1) * 30, resolvedPicks.length)}`}</span>
+                    <button onClick={() => setPage(p => p + 1)} disabled={(page + 1) * 30 >= resolvedPicks.length}>Next →</button>
+                </div>
+            )}
         </div>
     );
 }
