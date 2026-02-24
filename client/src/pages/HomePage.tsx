@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../global.css"
 import "./HomePage.css"
 import DraftPickCard from "../components/DraftPickCard";
@@ -31,14 +31,16 @@ export function getPlayerHeadShot(nbaStatsId: number | null): string {
 
 function HomePage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const isFirstRender = useRef(true);
   const [draft, setDraft] = useState<DraftPick[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<number>(2025);
+  const [selectedYear, setSelectedYear] = useState<number>(state?.selectedYear ?? 2025);
   const [draftYears, setDraftYears] = useState<number[]>([]);
   const [selectedPickIdx, setSelectedPickIdx] = useState<number | null>(null);
-  const [assignments, setAssignments] = useState<Record<number, number>>({});
-  const [redraftSlots, setRedraftSlots] = useState<number | "all">("all");
+  const [assignments, setAssignments] = useState<Record<number, number>>(state?.assignments ?? {});
+  const [redraftSlots, setRedraftSlots] = useState<number | "all">(state?.redraftSlots ?? "all");
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/draft-years")
@@ -59,10 +61,14 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    } else {
+      setAssignments({});
+      setSelectedPickIdx(null);
+    }
     setLoading(true);
     setError(null);
-    setAssignments({});
-    setSelectedPickIdx(null);
     fetch(`http://127.0.0.1:8000/drafts/${selectedYear}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch draft");
@@ -117,6 +123,25 @@ function HomePage() {
     setSelectedPickIdx(null);
   }
 
+  function resolvePicksForView() {
+    return draftOrder.map(pick => {
+      const assignedIdx = assignments[pick.pick_number];
+      const assignedDraftPick = assignedIdx !== undefined ? draft[assignedIdx] : null;
+      return {
+        pick_number: pick.pick_number,
+        drafted_by: pick.drafted_by,
+        player: assignedDraftPick ? {
+          name: assignedDraftPick.player.name,
+          position: assignedDraftPick.player.position,
+          college_or_club: assignedDraftPick.player.college_or_club,
+          nba_stats_id: assignedDraftPick.player.nba_stats_id,
+          original_pick_number: assignedDraftPick.pick_number,
+          original_drafted_by: assignedDraftPick.drafted_by,
+          traded_to: assignedDraftPick.traded_to,
+        } : null,
+      };
+    });
+  }
   return (
     <div className="app-container">
       {/* Header */}
@@ -132,7 +157,7 @@ function HomePage() {
           <option value={30}>First Round</option>
         </select>
         <button onClick={handleClear}>Clear</button>
-        <button onClick={() => navigate("/view", { state: { assignments } })}>View Your Picks</button>
+        <button onClick={() => navigate("/view", { state: { resolvedPicks: resolvePicksForView(), assignments, selectedYear, redraftSlots } })}>View Your Picks</button>
       </div>
       {/* Draft Picks */}
       <div className="picks-container">

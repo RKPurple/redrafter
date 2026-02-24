@@ -1,11 +1,16 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./ViewPage.css";
 
 function ViewPage() {
+    const navigate = useNavigate();
     const { state } = useLocation();
-    const { assignments } = state;
+    const { resolvedPicks, assignments, selectedYear, redraftSlots } = state;
     return (
-        <div>
-            <h1>View Page</h1>
+        <div className="view-page">
+            <div className="view-page-header">
+                <button onClick={() => navigate("/", { state: { assignments, selectedYear, redraftSlots } })}>Back</button>
+                <h1>View Page</h1>
+            </div>
         </div>
     );
 }
