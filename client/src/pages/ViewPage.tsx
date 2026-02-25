@@ -34,7 +34,7 @@ function ViewPage() {
                         <option value={14}>Lottery Picks</option>
                         <option value={30}>First Round</option>
                     </select>
-                    <button>Export Image</button> {/* TODO: Implement export image functionality */}
+                    <button>Export Image</button>
                 </div>
             </div>
             <div className="view-body">

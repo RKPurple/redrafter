@@ -314,7 +314,7 @@
     }
     .redrafted-card .player-name {
         font-size: 12px;
-        text-align: left;
+        text-align: right;
     }
     .redrafted-card .player-secondary-info { display: none; }
 }
