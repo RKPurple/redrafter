@@ -15,6 +15,7 @@ type RedraftedPickCardProps = {
     onUnassign: () => void;
     readOnly?: boolean;
     isSelected?: boolean;
+    overlayType?: "replace" | "swap";
 }
 
 function RedraftedPickCard({
@@ -30,6 +31,7 @@ function RedraftedPickCard({
     onUnassign,
     readOnly = false,
     isSelected = false,
+    overlayType,
 }: RedraftedPickCardProps) {
     const [preDraftImageError, setPreDraftImageError] = useState(false);
     const redraftedAbbr = reDraftedBy?.toLowerCase() ?? "nba";
@@ -73,6 +75,11 @@ function RedraftedPickCard({
 
     return (
         <div className={`redrafted-card${isSelected ? " selected" : ""}`} style={{ ...style, ...glowStyle }} onClick={!readOnly ? onClick : undefined}>
+            {overlayType && (
+                <div className={`card-overlay ${overlayType}`}>
+                    {overlayType === "swap" ? "⇄ SWAP" : "↺ REPLACE"}
+                </div>
+            )}
             <div className="redrafted-card-content">
                 <div className="selection-number" style={badgeStyle}>
                     #{redraftedPickNumber}

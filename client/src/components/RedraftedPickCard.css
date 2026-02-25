@@ -19,6 +19,33 @@
     outline-offset: 2px;
 }
 
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Knockout-HTF51-Middleweight", sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.card-overlay.swap {
+    background: rgba(255, 255, 255, 0.15);
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: -2px;
+}
+
+.card-overlay.replace {
+    background: rgba(220, 60, 60, 0.25);
+    outline: 2px solid rgba(220, 60, 60, 0.7);
+    outline-offset: -2px;
+}
+
 .redrafted-card-content {
     position: relative;
     display: flex;

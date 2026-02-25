@@ -251,6 +251,11 @@ function HomePage() {
                   draftedBy={assignedPlayer.traded_to ?? assignedPlayer.drafted_by ?? "NBA"}
                   playerNbaStatsId={assignedPlayer.player.nba_stats_id}
                   isSelected={selectedRedraftPickNumber === pick.pick_number}
+                  overlayType={
+                    selectedPickIdx !== null ? "replace" :
+                    selectedRedraftPickNumber !== null && selectedRedraftPickNumber !== pick.pick_number ? "swap" :
+                    undefined
+                  }
                   onClick={() => handleRedraftedPickClick(pick.pick_number)}
                   onUnassign={() => handleUnassign(pick.pick_number)}
                 />
