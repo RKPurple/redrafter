@@ -8,6 +8,7 @@ import EmptyPickCard from "../components/EmptyPickCard";
 import RedraftedPickCard from "../components/RedraftedPickCard";
 import PlacedPickCard from "../components/PlacedPickCard";
 import YearSelector from "../components/YearSelector";
+import RedraftSlotsSelector from "../components/RedraftSlotsSelector";
 
 type Player = {
   name: string;
@@ -143,22 +144,23 @@ function HomePage() {
       };
     });
   }
+
   return (
     <div className="app-container">
       {/* Header */}
       <div className="app-header">
-        <YearSelector years={draftYears} selectedYear={selectedYear} onChange={setSelectedYear} />
-        <h1>NBA ReDraft</h1>
-      </div>
-      <div className="filter-container">
-        <select value={redraftSlots} onChange={e => setRedraftSlots(e.target.value === "all" ? "all" : Number(e.target.value))}>
-          <option value="all">All</option>
-          <option value={5}>Top 5</option>
-          <option value={14}>Lottery Picks</option>
-          <option value={30}>First Round</option>
-        </select>
-        <button onClick={handleClear}>Clear</button>
-        <button onClick={() => navigate("/view", { state: { resolvedPicks: resolvePicksForView(), assignments, selectedYear, redraftSlots } })}>View Your Picks</button>
+        <div className="header-left" />
+        <div className="header-center">
+          <YearSelector years={draftYears} selectedYear={selectedYear} onChange={setSelectedYear} />
+          <h1>NBA ReDraft</h1>
+        </div>
+        <div className="header-right">
+          <RedraftSlotsSelector selected={redraftSlots} onChange={setRedraftSlots} />
+          <button className="clear-button" onClick={handleClear}>Clear ✕</button>
+          <button className="view-button" onClick={() => navigate("/view", { state: { resolvedPicks: resolvePicksForView(), assignments, selectedYear, redraftSlots } })}>
+            View Your Picks <span>→</span>
+          </button>
+        </div>
       </div>
       {/* Draft Picks */}
       <div className="picks-container">

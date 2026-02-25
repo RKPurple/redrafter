@@ -1,0 +1,92 @@
+.redraft-slots-selector {
+  position: relative;
+}
+
+.redraft-slots-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #252525;
+  border: 1px solid #3c3c3c;
+  border-radius: 999px;
+  padding: 10px 16px 10px 18px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.redraft-slots-pill:hover {
+  background: #2e2e2e;
+  border-color: #555;
+}
+
+.redraft-slots-pill.open {
+  background: #2e2e2e;
+  border-color: #555;
+}
+
+.redraft-slots-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0f0f0;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.redraft-slots-chevron {
+  color: #888;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.redraft-slots-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.redraft-slots-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: #222;
+  border: 1px solid #3a3a3a;
+  border-radius: 14px;
+  min-width: 100%;
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  animation: redraftSlotsDropIn 0.15s ease;
+  overflow: hidden;
+}
+
+@keyframes redraftSlotsDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.redraft-slots-option {
+  padding: 9px 22px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #aaa;
+  cursor: pointer;
+  transition: background 0.1s ease, color 0.1s ease;
+  white-space: nowrap;
+}
+
+.redraft-slots-option:hover {
+  background: #2e2e2e;
+  color: #f0f0f0;
+}
+
+.redraft-slots-option.selected {
+  color: #fff;
+  font-weight: 700;
+}
