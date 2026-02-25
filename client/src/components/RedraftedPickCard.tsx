@@ -1,5 +1,6 @@
 import "./RedraftedPickCard.css";
 import React, { useState } from "react";
+import { API_URL } from "../config";
 
 type RedraftedPickCardProps = {
     redraftedPickNumber: number;
@@ -31,7 +32,7 @@ function RedraftedPickCard({
     const [preDraftImageError, setPreDraftImageError] = useState(false);
     const redraftedAbbr = reDraftedBy?.toLowerCase() ?? "nba";
     const originalAbbr = draftedBy?.toLowerCase() ?? "nba";
-    const headshotSrc = `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerNbaStatsId ?? 0}.png`;
+    const headshotSrc = `${API_URL}/headshot/${playerNbaStatsId ?? 0}`;
     const playerPreDraft = playerCollegeOrClub?.toLowerCase().replace(/\s+/g, '').replace(/['.]/g, '')
 
     const style: React.CSSProperties = {
@@ -123,7 +124,7 @@ function RedraftedPickCard({
                     <img
                         className="player-headshot"
                         src={headshotSrc}
-                        alt={'https://cdn.nba.com/headshots/nba/latest/1040x760/0.png'}
+                        alt={playerName ?? "headshot"}
                     />
                 </div>
                 {/* Unassign Button */}

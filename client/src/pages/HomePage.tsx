@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { API_URL } from "../config";
 import "../global.css"
 import "./HomePage.css"
 import DraftPickCard from "../components/DraftPickCard";
@@ -26,7 +27,7 @@ type DraftPick = {
 
 export function getPlayerHeadShot(nbaStatsId: number | null): string {
   const id = nbaStatsId ?? 0;
-  return `https://cdn.nba.com/headshots/nba/latest/1040x760/${id}.png`;
+  return `${API_URL}/headshot/${id}`;
 }
 
 function HomePage() {
@@ -43,7 +44,7 @@ function HomePage() {
   const [redraftSlots, setRedraftSlots] = useState<number | "all">(state?.redraftSlots ?? "all");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/draft-years")
+    fetch(`${API_URL}/draft-years`)
       .then((res) => {
         if(!res.ok) throw new Error("Failed to fetch draft years");
         return res.json();
@@ -69,7 +70,7 @@ function HomePage() {
     }
     setLoading(true);
     setError(null);
-    fetch(`http://127.0.0.1:8000/drafts/${selectedYear}`)
+    fetch(`${API_URL}/drafts/${selectedYear}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch draft");
         return res.json();

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 import RedraftedPickCard from "../components/RedraftedPickCard";
 import EmptyPickCard from "../components/EmptyPickCard";
 import "./ViewPage.css";
@@ -10,10 +11,32 @@ function ViewPage() {
     const { resolvedPicks, assignments, selectedYear, redraftSlots } = state;
     const [viewSlots, setViewSlots] = useState<number | "all">(redraftSlots)
     const [page, setPage] = useState(0);
+    const [isExporting, setIsExporting] = useState(false);
 
     function handleViewSlotsChange(value: number | "all") {
         setViewSlots(value);
         setPage(0);
+    }
+
+    async function handleExport() {
+        setIsExporting(true);
+        const res = await fetch(`${API_URL}/print-data`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ resolvedPicks, selectedYear, viewSlots, page }),
+        });
+        const { token } = await res.json();
+
+        const imageRes = await fetch(`${API_URL}/screenshot/${token}`);
+        const blob = await imageRes.blob();
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = `${selectedYear}-redraft.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+        setIsExporting(false);
     }
 
     const visiblePicks = viewSlots === "all"
@@ -34,7 +57,9 @@ function ViewPage() {
                         <option value={14}>Lottery Picks</option>
                         <option value={30}>First Round</option>
                     </select>
-                    <button>Export Image</button>
+                    <button onClick={handleExport} disabled={isExporting}>
+                        {isExporting ? "Exporting..." : "Export Image"}
+                    </button>
                 </div>
             </div>
             <div className="view-body">

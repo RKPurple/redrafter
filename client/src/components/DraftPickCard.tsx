@@ -1,5 +1,6 @@
 import "./DraftPickCard.css";
 import React, { useState } from "react";
+import { API_URL } from "../config";
 
 
 type DraftPickCardProps = {
@@ -28,7 +29,7 @@ function DraftPickCard({
     const [preDraftImageError, setPreDraftImageError] = useState(false);
     const displayTeam = tradedTo ?? draftedBy ?? "NBA";
     const abbr = displayTeam.toLowerCase();
-    const headshotSrc = `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerNbaStatsId ?? 0}.png`;
+    const headshotSrc = `${API_URL}/headshot/${playerNbaStatsId ?? 0}`;
     const playerPreDraft = playerCollegeOrClub?.toLowerCase().replace(/\s+/g, '').replace(/['.]/g, '')
     const style: React.CSSProperties = {
         background: `linear-gradient(
@@ -106,7 +107,7 @@ function DraftPickCard({
                 <img
                     className="player-headshot"
                     src={headshotSrc}
-                    alt={'https://cdn.nba.com/headshots/nba/latest/1040x760/0.png'}
+                    alt={playerName ?? "headshot"}
                     />
             </div>
         </div>
