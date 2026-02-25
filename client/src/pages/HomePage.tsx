@@ -43,6 +43,7 @@ function HomePage() {
   const [selectedPickIdx, setSelectedPickIdx] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<Record<number, number>>(state?.assignments ?? {});
   const [redraftSlots, setRedraftSlots] = useState<number | "all">(state?.redraftSlots ?? "all");
+  const [selectedRedraftPickNumber, setSelectedRedraftPickNumber] = useState<number | null>(null);
 
   useEffect(() => {
     fetch(`${API_URL}/draft-years`)
@@ -103,10 +104,22 @@ function HomePage() {
   function handleDraftPickClick(idx: number) {
     const isPlaced = Object.values(assignments).includes(idx);
     if (isPlaced) return;
+    setSelectedRedraftPickNumber(null); // exit swap mode
     setSelectedPickIdx(prev => prev === idx ? null : idx);
   }
 
   function handleEmptyPickClick(pickNumber: number) {
+    if (selectedRedraftPickNumber !== null) {
+      // Move selected redrafted card to this empty slot
+      setAssignments(prev => {
+        const next = { ...prev };
+        next[pickNumber] = next[selectedRedraftPickNumber];
+        delete next[selectedRedraftPickNumber];
+        return next;
+      });
+      setSelectedRedraftPickNumber(null);
+      return;
+    }
     if (selectedPickIdx === null) return;
     setAssignments(prev => ({ ...prev, [pickNumber]: selectedPickIdx }));
     setSelectedPickIdx(null);
@@ -123,6 +136,7 @@ function HomePage() {
   function handleClear() {
     setAssignments({});
     setSelectedPickIdx(null);
+    setSelectedRedraftPickNumber(null);
   }
 
   function resolvePicksForView() {
@@ -143,6 +157,32 @@ function HomePage() {
         } : null,
       };
     });
+  }
+
+  function handleRedraftedPickClick(pickNumber: number) {
+    if (selectedPickIdx !== null) {
+      // Assignment mode: replace whatever is in this slot
+      setAssignments(prev => ({ ...prev, [pickNumber]: selectedPickIdx }));
+      setSelectedPickIdx(null);
+      return;
+    }
+    if (selectedRedraftPickNumber === pickNumber) {
+      setSelectedRedraftPickNumber(null);
+      return;
+    }
+    if (selectedRedraftPickNumber !== null) {
+      // Swap the two slots
+      setAssignments(prev => {
+        const next = { ...prev };
+        const temp = next[selectedRedraftPickNumber];
+        next[selectedRedraftPickNumber] = next[pickNumber];
+        next[pickNumber] = temp;
+        return next;
+      });
+      setSelectedRedraftPickNumber(null);
+      return;
+    }
+    setSelectedRedraftPickNumber(pickNumber);
   }
 
   return (
@@ -210,7 +250,8 @@ function HomePage() {
                   reDraftedBy={pick.drafted_by}
                   draftedBy={assignedPlayer.traded_to ?? assignedPlayer.drafted_by ?? "NBA"}
                   playerNbaStatsId={assignedPlayer.player.nba_stats_id}
-                  onClick={() => {}}
+                  isSelected={selectedRedraftPickNumber === pick.pick_number}
+                  onClick={() => handleRedraftedPickClick(pick.pick_number)}
                   onUnassign={() => handleUnassign(pick.pick_number)}
                 />
               ) : (
@@ -218,7 +259,7 @@ function HomePage() {
                   key={idx}
                   pickNumber={pick.pick_number}
                   selectionTeam={pick.drafted_by}
-                  isSelectionActive={selectedPickIdx !== null}
+                  isSelectionActive={selectedPickIdx !== null || selectedRedraftPickNumber !== null}
                   onClick={() => handleEmptyPickClick(pick.pick_number)}
                 />
               );

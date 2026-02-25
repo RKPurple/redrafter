@@ -14,6 +14,7 @@ type RedraftedPickCardProps = {
     onClick: () => void;
     onUnassign: () => void;
     readOnly?: boolean;
+    isSelected?: boolean;
 }
 
 function RedraftedPickCard({
@@ -28,6 +29,7 @@ function RedraftedPickCard({
     onClick,
     onUnassign,
     readOnly = false,
+    isSelected = false,
 }: RedraftedPickCardProps) {
     const [preDraftImageError, setPreDraftImageError] = useState(false);
     const redraftedAbbr = reDraftedBy?.toLowerCase() ?? "nba";
@@ -70,7 +72,7 @@ function RedraftedPickCard({
     } as React.CSSProperties;
 
     return (
-        <div className="redrafted-card" style={{ ...style, ...glowStyle }}>
+        <div className={`redrafted-card${isSelected ? " selected" : ""}`} style={{ ...style, ...glowStyle }} onClick={!readOnly ? onClick : undefined}>
             <div className="redrafted-card-content">
                 <div className="selection-number" style={badgeStyle}>
                     #{redraftedPickNumber}
