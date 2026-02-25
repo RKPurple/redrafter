@@ -3,6 +3,7 @@
 }
 
 .redraft-slots-pill {
+  font-family: var(--font-header);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -72,6 +73,7 @@
 }
 
 .redraft-slots-option {
+  font-family: var(--font-buttons);
   padding: 9px 22px;
   font-size: 1rem;
   font-weight: 500;

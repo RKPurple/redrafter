@@ -1,5 +1,12 @@
 /* Global CSS */
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow+Condensed:wght@400;500;600&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap');
+
 :root {
+    /* Fonts */
+    --font-header: 'Big Shoulders Display', sans-serif;
+    --font-buttons: 'Barlow Semi Condensed', sans-serif;
+
+
     /* NBA Teams Colors For Draft Gradient Backgrounds */
     --atl-grad-start: #FDB927;
     --atl-grad-end: #C8102F;

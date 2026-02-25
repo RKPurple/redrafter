@@ -152,7 +152,7 @@ function HomePage() {
         <div className="header-left" />
         <div className="header-center">
           <YearSelector years={draftYears} selectedYear={selectedYear} onChange={setSelectedYear} />
-          <h1>NBA ReDraft</h1>
+          <h1>NBA Redraft</h1>
         </div>
         <div className="header-right">
           <RedraftSlotsSelector selected={redraftSlots} onChange={setRedraftSlots} />

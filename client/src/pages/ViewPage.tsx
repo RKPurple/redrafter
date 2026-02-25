@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../config";
 import RedraftedPickCard from "../components/RedraftedPickCard";
 import EmptyPickCard from "../components/EmptyPickCard";
+import RedraftSlotsSelector from "../components/RedraftSlotsSelector";
 import "./ViewPage.css";
 
 function ViewPage() {
@@ -47,18 +48,13 @@ function ViewPage() {
         <div className="view-page">
             <div className="view-page-header">
                 <div className="view-page-header-left">
-                    <button onClick={() => navigate("/", { state: { assignments, selectedYear, redraftSlots: viewSlots } })}>Back</button>
+                    <button className="back-button" onClick={() => navigate("/", { state: { assignments, selectedYear, redraftSlots: viewSlots } })}>← Back</button>
                 </div>
                 <h1>{selectedYear} Redrafted</h1>
                 <div className="view-page-header-right">
-                    <select value={viewSlots} onChange={e => handleViewSlotsChange(e.target.value === "all" ? "all" : Number(e.target.value))}>
-                        <option value="all">All</option>
-                        <option value={5}>Top 5</option>
-                        <option value={14}>Lottery Picks</option>
-                        <option value={30}>First Round</option>
-                    </select>
-                    <button onClick={handleExport} disabled={isExporting}>
-                        {isExporting ? "Exporting..." : "Export Image"}
+                    <RedraftSlotsSelector selected={viewSlots} onChange={handleViewSlotsChange} />
+                    <button className="export-button" onClick={handleExport} disabled={isExporting}>
+                        {isExporting ? "Exporting..." : "Export ↓"}
                     </button>
                 </div>
             </div>
@@ -95,9 +91,9 @@ function ViewPage() {
             </div>
             {viewSlots === "all" && (
                 <div className="view-pagination">
-                    <button onClick={() => setPage(p => p - 1)} disabled={page === 0}>← Prev</button>
+                    <button className="pagination-prev" onClick={() => setPage(p => p - 1)} disabled={page === 0}>←</button>
                     <span>{page === 0 ? "1st Round" : page === 1 ? "2nd Round" : `Picks ${page * 30 + 1}–${Math.min((page + 1) * 30, resolvedPicks.length)}`}</span>
-                    <button onClick={() => setPage(p => p + 1)} disabled={(page + 1) * 30 >= resolvedPicks.length}>Next →</button>
+                    <button className="pagination-next" onClick={() => setPage(p => p + 1)} disabled={(page + 1) * 30 >= resolvedPicks.length}>→</button>
                 </div>
             )}
         </div>
