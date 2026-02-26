@@ -24,14 +24,30 @@ function NotFoundPage() {
                 style={{
                     fontFamily: "var(--font-buttons)",
                     background: "rgba(255,255,255,0.08)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
                     border: "1px solid rgba(255,255,255,0.15)",
                     color: "rgba(255,255,255,0.75)",
-                    padding: "10px 28px",
+                    padding: "10px 20px",
                     borderRadius: "999px",
-                    fontSize: "1rem",
+                    fontSize: "0.9rem",
                     fontWeight: 600,
                     letterSpacing: "0.04em",
                     cursor: "pointer",
+                    transition: "all 0.15s ease",
+                    transform: "translateX(-2px)",
+                }}
+                onMouseEnter={e => {
+                    const el = e.currentTarget;
+                    el.style.background = "rgba(224,58,62,0.2)";
+                    el.style.borderColor = "rgba(224,58,62,0.5)";
+                    el.style.color = "#e03a3e";
+                }}
+                onMouseLeave={e => {
+                    const el = e.currentTarget;
+                    el.style.background = "rgba(255,255,255,0.08)";
+                    el.style.borderColor = "rgba(255,255,255,0.15)";
+                    el.style.color = "rgba(255,255,255,0.75)";
                 }}
             >
                 ← Back to Home
