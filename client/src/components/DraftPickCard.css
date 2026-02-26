@@ -231,3 +231,58 @@
   object-position: bottom right;
   filter: drop-shadow(0 4px 16px rgba(0,0,0,0.4));
 }
+
+/* ── Mobile ────────────────────────────────────── */
+@media (max-width: 768px) {
+  @keyframes draftCard {
+    from {
+      height: 60px;
+      filter: grayscale(50%);
+      opacity: 0.45;
+    }
+    to {
+      height: 180px;
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+  }
+
+  .draft-card {
+    height: 180px;
+    --header-height: 44px;
+  }
+
+  .draft-card-header {
+    padding: 10px 16px;
+  }
+
+  .selection-number-wrapper {
+    width: 90px;
+    margin-top: -30px;
+  }
+
+  .draft-card .selection-number {
+    font-size: 32px;
+    padding: 0px 10px 2px;
+  }
+
+  .player-name {
+    font-size: 18px;
+  }
+
+  .player-position {
+    font-size: 16px;
+  }
+
+  .player-pre-draft {
+    max-height: 30px;
+    max-width: 50px;
+  }
+
+  .team-logos {
+    left: 16px;
+    bottom: 30px;
+    width: 90px;
+    height: 90px;
+  }
+}

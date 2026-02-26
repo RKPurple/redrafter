@@ -44,6 +44,7 @@ function HomePage() {
   const [assignments, setAssignments] = useState<Record<number, number>>(state?.assignments ?? {});
   const [redraftSlots, setRedraftSlots] = useState<number | "all">(state?.redraftSlots ?? "all");
   const [selectedRedraftPickNumber, setSelectedRedraftPickNumber] = useState<number | null>(null);
+  const [mobileTab, setMobileTab] = useState<"original" | "redrafted">("original");
 
   useEffect(() => {
     fetch(`${API_URL}/draft-years`)
@@ -104,8 +105,13 @@ function HomePage() {
   function handleDraftPickClick(idx: number) {
     const isPlaced = Object.values(assignments).includes(idx);
     if (isPlaced) return;
-    setSelectedRedraftPickNumber(null); // exit swap mode
-    setSelectedPickIdx(prev => prev === idx ? null : idx);
+    setSelectedRedraftPickNumber(null);
+    if (selectedPickIdx === idx) {
+      setSelectedPickIdx(null);
+    } else {
+      setSelectedPickIdx(idx);
+      setMobileTab("redrafted");
+    }
   }
 
   function handleEmptyPickClick(pickNumber: number) {
@@ -202,9 +208,24 @@ function HomePage() {
           </button>
         </div>
       </div>
+      {/* Mobile Tab Bar */}
+      <div className="mobile-tab-bar">
+        <button
+          className={`mobile-tab${mobileTab === "original" ? " active" : ""}`}
+          onClick={() => setMobileTab("original")}
+        >
+          Original
+        </button>
+        <button
+          className={`mobile-tab${mobileTab === "redrafted" ? " active" : ""}${selectedPickIdx !== null ? " has-pending" : ""}`}
+          onClick={() => setMobileTab("redrafted")}
+        >
+          Redrafted{selectedPickIdx !== null && <span className="mobile-tab-dot" />}
+        </button>
+      </div>
       {/* Draft Picks */}
       <div className="picks-container">
-        <div className="picks-column-scroll">
+        <div className={`picks-column-scroll${mobileTab !== "original" ? " mobile-hidden" : ""}`}>
           <div className="original-picks">
             {draft.map((pick, idx) => {
               const isPlaced = Object.values(assignments).includes(idx);
@@ -234,7 +255,7 @@ function HomePage() {
           </div>
         </div>
         {/* Redrafted Picks */}
-        <div className="picks-column-scroll">
+        <div className={`picks-column-scroll${mobileTab !== "redrafted" ? " mobile-hidden" : ""}`}>
           <div className="redrafted-picks">
             {limitedDraftOrder.map((pick, idx) => {
               const assignedDraftIdx = assignments[pick.pick_number];

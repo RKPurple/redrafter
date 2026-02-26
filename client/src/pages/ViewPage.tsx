@@ -13,6 +13,9 @@ function ViewPage() {
     const [viewSlots, setViewSlots] = useState<number | "all">(redraftSlots)
     const [page, setPage] = useState(0);
     const [isExporting, setIsExporting] = useState(false);
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const itemsPerPage = isMobile ? 14 : 30;
+    const isPaginated = viewSlots === "all" || (isMobile && viewSlots === 30);
 
     function handleViewSlotsChange(value: number | "all") {
         setViewSlots(value);
@@ -40,9 +43,9 @@ function ViewPage() {
         setIsExporting(false);
     }
 
-    const visiblePicks = viewSlots === "all"
-        ? resolvedPicks.slice(page * 30, (page + 1) * 30)
-        : resolvedPicks.slice(0, viewSlots);
+    const visiblePicks = isPaginated
+        ? resolvedPicks.slice(page * itemsPerPage, (page + 1) * itemsPerPage)
+        : resolvedPicks.slice(0, viewSlots as number);
     
     return (
         <div className="view-page">
@@ -89,11 +92,11 @@ function ViewPage() {
                     )}
                 </div>
             </div>
-            {viewSlots === "all" && (
+            {isPaginated && (
                 <div className="view-pagination">
                     <button className="pagination-prev" onClick={() => setPage(p => p - 1)} disabled={page === 0}>←</button>
-                    <span>{page === 0 ? "1st Round" : page === 1 ? "2nd Round" : `Picks ${page * 30 + 1}–${Math.min((page + 1) * 30, resolvedPicks.length)}`}</span>
-                    <button className="pagination-next" onClick={() => setPage(p => p + 1)} disabled={(page + 1) * 30 >= resolvedPicks.length}>→</button>
+                    <span>{`Picks ${page * itemsPerPage + 1}–${Math.min((page + 1) * itemsPerPage, resolvedPicks.length)}`}</span>
+                    <button className="pagination-next" onClick={() => setPage(p => p + 1)} disabled={(page + 1) * itemsPerPage >= resolvedPicks.length}>→</button>
                 </div>
             )}
         </div>

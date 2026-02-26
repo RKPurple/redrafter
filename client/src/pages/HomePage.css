@@ -127,3 +127,87 @@ h1 {
   flex-direction: column;
   gap: 0.75rem;
 }
+
+/* Mobile Tab Bar */
+.mobile-tab-bar {
+  display: none;
+}
+
+/* ── Mobile ────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  .app-header {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .header-left {
+    display: none;
+  }
+
+  .header-center {
+    justify-content: center;
+  }
+
+  .header-right {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .mobile-tab-bar {
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+    padding: 0.5rem 1rem 0;
+  }
+
+  .mobile-tab {
+    flex: 1;
+    position: relative;
+    font-family: var(--font-buttons);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 10px 0;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .mobile-tab.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+  }
+
+  .mobile-tab-dot {
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #0dff00;
+    box-shadow: 0 0 6px #0dff00;
+  }
+
+  .picks-container {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0.5rem;
+  }
+
+  .picks-column-scroll.mobile-hidden {
+    display: none;
+  }
+}

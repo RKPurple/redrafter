@@ -174,3 +174,36 @@
     color: #fff;
     transform: translateX(2px);
 }
+
+/* ── Mobile ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .view-page-header {
+    grid-template-columns: auto 1fr auto;
+    padding: 0.6rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .view-page-header h1 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .view-page-header-right .export-button {
+    display: none;
+  }
+
+  .view-content--5 {
+    width: 100%;
+  }
+
+  .view-content--14,
+  .view-content--30,
+  .view-content--all {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(7, auto);
+    grid-auto-flow: column;
+    width: 100%;
+    gap: 0.4rem;
+  }
+}
