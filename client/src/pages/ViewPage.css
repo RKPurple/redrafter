@@ -59,6 +59,32 @@
     gap: 0.5rem;
 }
 
+.share-button {
+    font-family: var(--font-buttons);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.share-button:hover {
+    background: linear-gradient(90deg, var(--nba-grad-start), #5b7fcf);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    transform: translateY(2px);
+    transform: translateX(2px);
+}
+
 .export-button {
     font-family: var(--font-buttons);
     display: flex;

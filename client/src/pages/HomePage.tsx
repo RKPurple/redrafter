@@ -204,7 +204,7 @@ function HomePage() {
           <RedraftSlotsSelector selected={redraftSlots} onChange={setRedraftSlots} />
           <button className="clear-button" onClick={handleClear}>Clear ✕</button>
           <button className="view-button" onClick={() => navigate("/view", { state: { resolvedPicks: resolvePicksForView(), assignments, selectedYear, redraftSlots } })}>
-            View Your Picks <span>→</span>
+            View | Download | Share <span>→</span>
           </button>
         </div>
       </div>
