@@ -55,6 +55,7 @@ function ViewPage() {
     const [viewSlots, setViewSlots] = useState<number | "all">(state?.redraftSlots ?? "all");
     const [page, setPage] = useState(0);
     const [isExporting, setIsExporting] = useState(false);
+    const [exportError, setExportError] = useState<string | null>(null);
     const [loadingShared, setLoadingShared] = useState(!state && !!searchParams.get("data"));
     const [shareLabel, setShareLabel] = useState("Share Link ↗");
 
@@ -90,21 +91,29 @@ function ViewPage() {
 
     async function handleExport() {
         setIsExporting(true);
-        const res = await fetch(`${API_URL}/print-data`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ resolvedPicks, selectedYear, viewSlots, page }),
-        });
-        const { token } = await res.json();
-        const imageRes = await fetch(`${API_URL}/screenshot/${token}`);
-        const blob = await imageRes.blob();
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.download = `${selectedYear}-redraft.png`;
-        link.href = url;
-        link.click();
-        URL.revokeObjectURL(url);
-        setIsExporting(false);
+        setExportError(null);
+        try {
+            const res = await fetch(`${API_URL}/print-data`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ resolvedPicks, selectedYear, viewSlots, page }),
+            });
+            if (!res.ok) throw new Error("Failed to send print data");
+            const { token } = await res.json();
+            const imageRes = await fetch(`${API_URL}/screenshot/${token}`);
+            if (!imageRes.ok) throw new Error("Failed to generate screenshot");
+            const blob = await imageRes.blob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.download = `${selectedYear}-redraft.png`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        } catch {
+            setExportError("Export failed. Please try again.");
+        } finally {
+            setIsExporting(false);
+        }
     }
 
     function handleShare() {
@@ -134,6 +143,7 @@ function ViewPage() {
                     <button className="export-button" onClick={handleExport} disabled={isExporting}>
                         {isExporting ? "Downloading..." : "Download ↓"}
                     </button>
+                    {exportError && <span className="export-error">{exportError}</span>}
                 </div>
             </div>
             <div className="view-body">

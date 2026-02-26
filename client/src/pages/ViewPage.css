@@ -110,6 +110,18 @@
     transform: translateY(2px);
 }
 
+.export-error {
+    font-family: var(--font-buttons);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #e03a3e;
+    background: rgba(224, 58, 62, 0.12);
+    border: 1px solid rgba(224, 58, 62, 0.35);
+    border-radius: 999px;
+    padding: 6px 12px;
+    white-space: nowrap;
+}
+
 .export-button:disabled {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);
