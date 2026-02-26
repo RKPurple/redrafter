@@ -26,6 +26,6 @@ def get_team_draft_picks() -> str:
     JOIN players p ON dp.player_id = p.id
     JOIN teams drafted ON dp.drafted_by_team_id = drafted.id
     LEFT JOIN teams traded ON dp.traded_to_team_id = traded.id
-    WHERE drafted.abbr = ?
+    WHERE drafted.abbr = %s
     ORDER BY d.year DESC, dp.pick_number;
     """

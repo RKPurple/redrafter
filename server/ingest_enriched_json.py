@@ -1,20 +1,22 @@
-import sqlite3
+import psycopg2
+import psycopg2.extras
 import json
 from pathlib import Path
+import os
 
-DB_PATH = Path("db/nba.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-conn = sqlite3.connect(DB_PATH)
-conn.row_factory = sqlite3.Row
-cur = conn.cursor()
+conn = psycopg2.connect(DATABASE_URL)
+conn.autocommit = False
+cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
 def get_or_create_draft(year: int) -> int:
     cur.execute(
-        "INSERT OR IGNORE INTO drafts (year) VALUES (?)",
+        "INSERT INTO drafts (year) VALUES (%s) ON CONFLICT DO NOTHING",
         (year,)
     )
     cur.execute(
-        "SELECT id FROM drafts WHERE year = ?",
+        "SELECT id FROM drafts WHERE year = %s",
         (year,)
     )
     return cur.fetchone()["id"]
@@ -22,7 +24,7 @@ def get_or_create_draft(year: int) -> int:
 def get_or_create_player(player: dict) -> int:
     cur.execute(
         """
-        INSERT OR IGNORE INTO players (
+        INSERT INTO players (
             canonical_name,
             bb_name,
             wiki_name,
@@ -31,7 +33,8 @@ def get_or_create_player(player: dict) -> int:
             college_or_club,
             undrafted
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT DO NOTHING
         """,
         (
             player["canonical_name"],
@@ -46,12 +49,12 @@ def get_or_create_player(player: dict) -> int:
 
     if player["nba_stats_id"] is not None:
         cur.execute(
-            "SELECT id FROM players WHERE nba_stats_id = ?",
+            "SELECT id FROM players WHERE nba_stats_id = %s",
             (player["nba_stats_id"],)
         )
     else:
         cur.execute(
-            "SELECT id FROM players WHERE canonical_name = ?",
+            "SELECT id FROM players WHERE canonical_name = %s",
             (player["canonical_name"],)
         )
     return cur.fetchone()["id"]
@@ -61,7 +64,7 @@ def get_team_id(abbr: str | None) -> int | None:
         return None
     
     cur.execute(
-        "SELECT id FROM teams WHERE abbr = ?",
+        "SELECT id FROM teams WHERE abbr = %s",
         (abbr,)
     )
     row = cur.fetchone()
@@ -75,7 +78,7 @@ def insert_draft_pick(
 ):
     cur.execute(
         """
-        INSERT OR IGNORE INTO draft_picks (
+        INSERT INTO draft_picks (
             draft_id,
             player_id,
             pick_number,
@@ -83,7 +86,8 @@ def insert_draft_pick(
             traded_to_team_id,
             match_status
         )
-        VALUES (?, ?, ?, ?, ?, ?)    
+        VALUES (%s, %s, %s, %s, %s, %s)    
+        ON CONFLICT DO NOTHING
         """,
         (
             draft_id,

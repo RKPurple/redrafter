@@ -1,8 +1,6 @@
-PRAGMA foreign_keys = ON;
-
 /* Players */
 CREATE TABLE players (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
 
     canonical_name TEXT NOT NULL UNIQUE,
     bb_name TEXT,
@@ -15,7 +13,7 @@ CREATE TABLE players (
 
 /* Teams */
 CREATE TABLE teams (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
 
     abbr TEXT UNIQUE NOT NULL,
     city TEXT NOT NULL,
@@ -24,14 +22,14 @@ CREATE TABLE teams (
 
 /* Drafts */
 CREATE TABLE drafts (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
 
     year INTEGER UNIQUE NOT NULL
 );
 
 /* Draft Picks */
 CREATE TABLE draft_picks (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
 
     draft_id INTEGER NOT NULL,
     player_id INTEGER NOT NULL,

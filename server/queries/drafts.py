@@ -26,7 +26,7 @@ def get_draft_by_year(draft_filter: str | None = None) -> str:
     LEFT JOIN teams drafted ON dp.drafted_by_team_id = drafted.id
     LEFT JOIN teams traded ON dp.traded_to_team_id = traded.id
 
-    WHERE d.year = ?{undrafted_condition}
+    WHERE d.year = %s{undrafted_condition}
     ORDER BY
         CASE WHEN dp.pick_number IS NULL THEN 1 ELSE 0 END,
         dp.pick_number;

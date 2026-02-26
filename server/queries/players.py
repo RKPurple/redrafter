@@ -9,7 +9,7 @@ def get_player_by_id() -> str:
         p.nba_stats_id,
         p.undrafted
     FROM players p
-    WHERE p.id = ?;
+    WHERE p.id = %s;
     """
 
 # Query to get a players draft history
@@ -24,6 +24,6 @@ def get_player_draft_history() -> str:
     JOIN drafts d ON dp.draft_id = d.id
     LEFT JOIN teams drafted ON dp.drafted_by_team_id = drafted.id
     LEFT JOIN teams traded ON dp.traded_to_team_id = traded.id
-    WHERE dp.player_id = ?
+    WHERE dp.player_id = %s
     ORDER BY d.year;
     """

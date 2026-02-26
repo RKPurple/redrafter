@@ -1,7 +1,8 @@
+import psycopg2
+import psycopg2.extras
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import sqlite3
-from pathlib import Path
 import uuid
 import os
 from pydantic import BaseModel
@@ -13,10 +14,10 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 from queries.drafts import get_all_draft_years, get_draft_by_year
 
-DB_PATH = Path("db/nba.db")
 app = FastAPI(title="NBA Redraft API")
 app.add_middleware(
     CORSMiddleware,
@@ -29,24 +30,22 @@ app.add_middleware(
 # In-memory store: token -> picks data
 print_store: dict = {}
 
+def get_db():
+    conn = psycopg2.connect(DATABASE_URL)
+    conn.autocommit = False
+    return conn, conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 class PrintData(BaseModel):
     resolvedPicks: list[Any]
     selectedYear: int
     viewSlots: int | str
     page: int
 
-def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-
 @app.get("/drafts/{year}")
 def draft_by_year(
     year: int,
     draft_filter: Literal["all", "drafted", "undrafted"] | None = None,
 ):
-    conn = get_db()
-    cur = conn.cursor()
+    conn, cur = get_db()
     draft_filter = draft_filter if draft_filter else "all"
 
     cur.execute(get_draft_by_year(draft_filter), (year,))
@@ -75,8 +74,7 @@ def draft_by_year(
 
 @app.get("/draft-years")
 def draft_years():
-    conn = get_db()
-    cur=conn.cursor()
+    conn, cur = get_db()
     cur.execute(get_all_draft_years())
     rows = cur.fetchall()
     conn.close()
