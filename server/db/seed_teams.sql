@@ -3,6 +3,7 @@ INSERT INTO teams (abbr, city, name) VALUES
 ('BOS', 'Boston', 'Celtics'),
 ('BRK', 'Brooklyn', 'Nets'),
 ('CHO', 'Charlotte', 'Hornets'),
+('CHA', 'Charlotte', 'Bobcats'),
 ('CHI', 'Chicago', 'Bulls'),
 ('CLE', 'Cleveland', 'Cavaliers'),
 ('DAL', 'Dallas', 'Mavericks'),

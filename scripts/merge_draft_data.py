@@ -17,12 +17,13 @@ def normalize_name(name: str) -> str:
     name = re.sub(r"\bdj", "d", name)
     return name.strip()
 
-def normalize_team(city: str) -> str:
+def normalize_team(city: str, year: int) -> str:
+    charlotte = "CHO" if year >= 2014 else "CHA"
     nba_teams = {
         "atlanta": "ATL",
         "boston": "BOS",
         "brooklyn": "BRK",
-        "charlotte": "CHO",
+        "charlotte": charlotte,
         "chicago": "CHI",
         "cleveland": "CLE",
         "dallas": "DAL",
@@ -105,7 +106,7 @@ def merge(year):
                 
                 traded = None
                 if wiki_rec and wiki_rec["traded"]:
-                    traded = normalize_team(wiki_rec["traded"])
+                    traded = normalize_team(wiki_rec["traded"], year)
 
                 nba_stats_id = get_player_id(bb_rec["bb_name"], wiki_rec["wiki_name"] if wiki_rec else None)
                 merged = {
