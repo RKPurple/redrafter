@@ -20,7 +20,8 @@ CLUB_OVERWRITES = {
     "Loyola (Illinois)": "Loyola IL",
     "Orangeville Prep": "High School",
     "Guangdong": "China",
-    "Australian Institute of Sport": "Australia"
+    "Australian Institute of Sport": "Australia",
+    "Miami (FL)": "Miami"
 }
 
 def fix_club(club: str) -> str:
