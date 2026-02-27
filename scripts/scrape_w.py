@@ -11,7 +11,10 @@ CLUB_OVERWRITES = {
     "Ranney School" : "Ranney School",
     "Vanier College" : "Vanier College",
     "Moravian" : "High School",
-    "IMG": "IMG Academy"
+    "IMG": "IMG Academy",
+    "Princeton HS": "High School",
+    "G League": "G League",
+    "Brewster": "High School"
 }
 
 def fix_club(club: str) -> str:
