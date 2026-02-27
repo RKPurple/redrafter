@@ -40,6 +40,7 @@ def normalize_team(city: str) -> str:
         "new orleans": "NOP",
         "new york": "NYK",
         "oklahoma city": "OKC",
+        "oklahoma city thunder": "OKC",
         "orlando": "ORL",
         "philadelphia": "PHI",
         "phoenix": "PHO",

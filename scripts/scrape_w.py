@@ -17,7 +17,8 @@ CLUB_OVERWRITES = {
     "Brewster": "High School",
     "Chalmette HS": "High School",
     "D-League": "G League",
-    "Loyola (Illinois)": "Loyola IL"
+    "Loyola (Illinois)": "Loyola IL",
+    "Orangeville Prep": "High School"
 }
 
 def fix_club(club: str) -> str:
