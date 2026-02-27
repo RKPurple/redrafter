@@ -14,7 +14,8 @@ CLUB_OVERWRITES = {
     "IMG": "IMG Academy",
     "Princeton HS": "High School",
     "G League": "G League",
-    "Brewster": "High School"
+    "Brewster": "High School",
+    "Chalmette HS": "High School"
 }
 
 def fix_club(club: str) -> str:
@@ -72,7 +73,7 @@ def scrape_draft(year):
     os.makedirs(out_dir, exist_ok=True)
     with open(f"{out_dir}/wiki_{year}.jsonl", "w", encoding="utf-8") as f:
         for row in rows:
-            cells = [cell.get_text(strip=True) for cell in row.find_all("td")]
+            cells = [cell.get_text(strip=True) for cell in row.find_all(["td", "th"])]
             if not cells or (len(cells) <= 1):
                 continue
             elif (cells[0] == '1' or cells[0] == '2'):
