@@ -3,7 +3,9 @@ import psycopg2.extras
 import json
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
+load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 conn = psycopg2.connect(DATABASE_URL)
@@ -116,5 +118,16 @@ def ingest(file_path: Path):
     conn.commit()
 
 if __name__ == "__main__":
-    ingest(Path("../scripts/output/draft_2024_enriched.jsonl"))
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Ingest enriched draft data into the database.")
+    parser.add_argument(
+        "-y", "--year",
+        type=int,
+        default=2025,
+        help="Draft year to ingest (default: 2025)",
+    )
+    args = parser.parse_args()
+
+    ingest(Path(f"../scripts/output/draft_{args.year}_enriched.jsonl"))
     print("Ingestion complete :)")
