@@ -8,7 +8,10 @@ import re
 CLUB_OVERWRITES = {
     # "substring to match": "value to return"
     "Loyola (MD)" : "Loyola MD",
-    "Ranney School" : "Ranney School"
+    "Ranney School" : "Ranney School",
+    "Vanier College" : "Vanier College",
+    "Moravian" : "High School",
+    "IMG": "IMG Academy"
 }
 
 def fix_club(club: str) -> str:
