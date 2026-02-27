@@ -5,7 +5,18 @@ import json
 import time
 import re
 
+CLUB_OVERWRITES = {
+    # "substring to match": "value to return"
+    "Loyola (MD)" : "Loyola MD",
+    "Ranney School" : "Ranney School"
+}
+
 def fix_club(club: str) -> str:
+    for key, value in CLUB_OVERWRITES.items():
+        if key in club:
+            return value
+    if "(" not in club:
+        return club
     yrs = ["Fr.", "So.", "Jr.", "Sr."]
     parts = club.split("(", 1)
     parts[1] = parts[1].replace(")", "")
