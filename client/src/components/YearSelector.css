@@ -57,7 +57,8 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     z-index: 100;
     animation: dropIn 0.15s ease;
-    overflow: hidden;
+    max-height: calc(6.5 * 38px);
+    overflow-y: auto;
   }
   
   @keyframes dropIn {
@@ -85,6 +86,23 @@
   .year-option:hover {
     background: #2e2e2e;
     color: #f0f0f0;
+  }
+
+  .year-dropdown::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .year-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .year-dropdown::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 999px;
+  }
+
+  .year-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
   
   .year-option.selected {
