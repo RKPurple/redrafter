@@ -23,6 +23,7 @@ CLUB_OVERWRITES = {
     "Australian Institute of Sport": "Australia",
     "Miami (FL)": "Miami",
     "Stoneridge Prep": "High School",
+    "Robert Morris": "Robert Morris IL"
 }
 
 def fix_club(club: str) -> str:
