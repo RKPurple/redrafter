@@ -39,6 +39,7 @@ def normalize_team(city: str, year: int) -> str:
         "miami": "MIA",
         "milwaukee": "MIL",
         "minnesota": "MIN",
+        "new jersey": "NJN",
         "new orleans": new_orleans,
         "new york": "NYK",
         "oklahoma city": "OKC",
