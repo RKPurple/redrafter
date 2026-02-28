@@ -38,7 +38,7 @@ function HomePage() {
   const [draft, setDraft] = useState<DraftPick[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<number>(state?.selectedYear ?? 2010);
+  const [selectedYear, setSelectedYear] = useState<number>(state?.selectedYear ?? 2009);
   const [draftYears, setDraftYears] = useState<number[]>([]);
   const [selectedPickIdx, setSelectedPickIdx] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<Record<number, number>>(state?.assignments ?? {});
