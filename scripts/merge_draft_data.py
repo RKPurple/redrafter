@@ -50,6 +50,7 @@ def normalize_team(city: str, year: int) -> str:
         "portland": "POR",
         "sacramento": "SAC",
         "san antonio": "SAS",
+        "seattle": "SEA",
         "toronto": "TOR",
         "utah": "UTA",
         "washington": "WAS"

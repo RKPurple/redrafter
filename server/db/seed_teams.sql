@@ -29,6 +29,7 @@ INSERT INTO teams (abbr, city, name) VALUES
 ('POR', 'Portland', 'Trail Blazers'),
 ('SAC', 'Sacramento', 'Kings'),
 ('SAS', 'San Antonio', 'Spurs'),
+('SEA', 'Seattle', 'SuperSonics'),
 ('TOR', 'Toronto', 'Raptors'),
 ('UTA', 'Utah', 'Jazz'),
 ('WAS', 'Washington', 'Wizards');
