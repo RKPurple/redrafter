@@ -34,7 +34,9 @@ def fix_club(club: str) -> str:
     parts = club.split("(", 1)
     parts[1] = parts[1].replace(")", "")
     if (parts[1] in yrs): # College
-        return parts[0]
+        college = parts[0].strip()
+        college = re.sub(r'(?<=\w\s)\bSt\.\s*$', 'State', college)
+        return college
     else: # International
         return parts[1]
 

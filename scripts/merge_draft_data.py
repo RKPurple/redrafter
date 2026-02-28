@@ -19,6 +19,7 @@ def normalize_name(name: str) -> str:
 
 def normalize_team(city: str, year: int) -> str:
     charlotte = "CHO" if year >= 2014 else "CHA"
+    new_orleans = "NOP" if year >= 2013 else "NOH"
     nba_teams = {
         "atlanta": "ATL",
         "boston": "BOS",
@@ -38,7 +39,7 @@ def normalize_team(city: str, year: int) -> str:
         "miami": "MIA",
         "milwaukee": "MIL",
         "minnesota": "MIN",
-        "new orleans": "NOP",
+        "new orleans": new_orleans,
         "new york": "NYK",
         "oklahoma city": "OKC",
         "oklahoma city thunder": "OKC",

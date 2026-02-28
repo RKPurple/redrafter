@@ -18,6 +18,7 @@ INSERT INTO teams (abbr, city, name) VALUES
 ('MIA', 'Miami', 'Heat'),
 ('MIL', 'Milwaukee', 'Bucks'),
 ('MIN', 'Minnesota', 'Timberwolves'),
+('NOH', 'New Orleans', 'Hornets'),
 ('NOP', 'New Orleans', 'Pelicans'),
 ('NYK', 'New York', 'Knicks'),
 ('OKC', 'Oklahoma City', 'Thunder'),
