@@ -32,6 +32,15 @@ CLUB_OVERWRITES = {
     "South Gwinnett HS": "High School",
     "South Kent School": "High School",
     "Westchester HS": "High School",
+    "Southwest Atlanta Christian Academy": "High School",
+    "Peoria HS": "High School",
+    "Bakersfield HS": "High School",
+    "Lincoln HS": "High School",
+    "Prentiss HS": "High School",
+    "Oak Hill Academy": "High School",
+    "St. Benedict's Prep": "High School",
+    "South Kent School": "High School",
+    "Coastal Christian Academy": "High School",
 }
 
 def fix_club(club: str) -> str:
