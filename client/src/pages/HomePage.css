@@ -128,6 +128,56 @@ h1 {
   gap: 0.75rem;
 }
 
+/* ── Placed Count — Option B (Progress Arc) ── */
+.placed-count-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.placed-count-ring {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.placed-count-ring svg {
+  transform: rotate(-90deg);
+}
+
+.placed-count-ring .ring-track {
+  stroke: rgba(255, 255, 255, 0.1);
+  fill: none;
+  stroke-width: 3;
+}
+
+.placed-count-ring .ring-progress {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke: rgba(255, 255, 255, 0.5);
+  transition: stroke-dashoffset 0.5s ease, stroke 0.4s ease, filter 0.4s ease;
+}
+
+.placed-count-ring.complete .ring-progress {
+  stroke: #0dff00;
+  filter: drop-shadow(0 0 4px rgba(13, 255, 0, 0.7));
+}
+
+.placed-count-text {
+  font-family: var(--font-buttons);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.4s ease;
+}
+
+.placed-count-text.complete {
+  color: #0dff00;
+}
+
 /* Mobile Tab Bar */
 .mobile-tab-bar {
   display: none;

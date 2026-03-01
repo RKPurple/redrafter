@@ -38,7 +38,7 @@ function HomePage() {
   const [draft, setDraft] = useState<DraftPick[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<number>(state?.selectedYear ?? 2003);
+  const [selectedYear, setSelectedYear] = useState<number>(state?.selectedYear ?? 2025);
   const [draftYears, setDraftYears] = useState<number[]>([]);
   const [selectedPickIdx, setSelectedPickIdx] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<Record<number, number>>(state?.assignments ?? {});
@@ -195,7 +195,34 @@ function HomePage() {
     <div className="app-container">
       {/* Header */}
       <div className="app-header">
-        <div className="header-left" />
+        <div className="header-left">
+          {Object.keys(assignments).length > 0 && (() => {
+            const placed = Object.keys(assignments).length;
+            const total = redraftSlots === "all" ? draftOrder.length : redraftSlots;
+            const isComplete = placed === total && total > 0;
+            const radius = 15;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (placed / total) * circumference;
+            return (
+              <div className="placed-count-wrapper">
+                <div className={`placed-count-ring${isComplete ? " complete" : ""}`}>
+                  <svg width="36" height="36" viewBox="0 0 36 36">
+                    <circle className="ring-track" cx="18" cy="18" r={radius} />
+                    <circle
+                      className="ring-progress"
+                      cx="18" cy="18" r={radius}
+                      strokeDasharray={circumference}
+                      strokeDashoffset={offset}
+                    />
+                  </svg>
+                </div>
+                <span className={`placed-count-text${isComplete ? " complete" : ""}`}>
+                  {placed}/{total} redrafted
+                </span>
+              </div>
+            );
+          })()}
+        </div>
         <div className="header-center">
           <YearSelector years={draftYears} selectedYear={selectedYear} onChange={setSelectedYear} />
           <h1>NBA Redraft</h1>
