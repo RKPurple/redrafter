@@ -22,6 +22,7 @@ CLUB_OVERWRITES = {
     "Guangdong": "China",
     "Australian Institute of Sport": "Australia",
     "Miami (FL)": "Miami",
+    "Miami Florida": "Miami",
     "Stoneridge Prep": "High School",
     "Robert Morris": "Robert Morris IL",
     "Seattle Prep": "High School",
@@ -41,6 +42,12 @@ CLUB_OVERWRITES = {
     "St. Benedict's Prep": "High School",
     "South Kent School": "High School",
     "Coastal Christian Academy": "High School",
+    "St. Vincent": "St. Vincent-St. Mary HS",
+    "Starkville HS": "High School",
+    "Westbury Christian HS": "High School",
+    "Ozen HS": "High School",
+    "Central Park Christian HS": "High School",
+    "Minnesota (So)": "Minnesota",
 }
 
 def fix_club(club: str) -> str:
@@ -49,7 +56,7 @@ def fix_club(club: str) -> str:
             return value
     if "(" not in club:
         return club
-    yrs = ["Fr.", "So.", "Jr.", "Sr."]
+    yrs = ["Fr.", "So.", "Jr.", "Sr.", "Fr", "So", "Jr", "Sr"]
     parts = club.split("(", 1)
     parts[1] = parts[1].replace(")", "")
     if (parts[1] in yrs): # College
