@@ -11,6 +11,10 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Scripts generated data
+scripts/intermediate/
+scripts/output/
+
 # Database files
 *.db
 *.sql
