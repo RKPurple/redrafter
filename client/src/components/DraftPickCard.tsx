@@ -68,7 +68,7 @@ function DraftPickCard({
                         <div className="player-pre-draft-container">
                             <img
                                 className="player-pre-draft"
-                                src={`/src/assets/pre-draft-teams/${playerPreDraft}.svg`}
+                                src={`/pre-draft-teams/${playerPreDraft}.svg`}
                                 onError={() => setPreDraftImageError(true)}
                                 alt={playerCollegeOrClub}
                             />
@@ -90,14 +90,14 @@ function DraftPickCard({
                 {/* Always Shown */}
                 <img
                     className="primary-logo"
-                    src={`/src/assets/teams/${abbr}.svg`}
+                    src={`/teams/${abbr}.svg`}
                     alt={abbr}
                     />
                 {/* Shown only for traded players */}
                 {tradedTo && draftedBy && (
                     <img
                     className="secondary-logo"
-                    src={`/src/assets/teams/${draftedBy}.svg`}
+                    src={`/teams/${draftedBy}.svg`}
                     alt={draftedBy}
                     />
                 )}
