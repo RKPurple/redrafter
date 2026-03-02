@@ -92,7 +92,7 @@ function RedraftedPickCard({
                     {/* Drafting Team Logo*/}
                     <img
                         className="drafting-team-logo"
-                        src={`/src/assets/teams/${redraftedAbbr}.svg`}
+                        src={`/teams/${redraftedAbbr}.svg`}
                         alt={redraftedAbbr}
                     />
                 </div>
@@ -109,7 +109,7 @@ function RedraftedPickCard({
                             <div className="player-pre-draft-container">
                                 <img 
                                     className="player-college-or-club"
-                                    src={`/src/assets/pre-draft-teams/${playerPreDraft}.svg`}
+                                    src={`/pre-draft-teams/${playerPreDraft}.svg`}
                                     alt={playerCollegeOrClub ?? "Unknown"}
                                 />
                                 <span className="player-pre-draft-tooltip">

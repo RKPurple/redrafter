@@ -40,7 +40,7 @@ function EmptyPickCard({
                 </div>
                 <div className="drafting-team-logo">
                     <img
-                        src={`/src/assets/teams/${abbr}.svg`}
+                        src={`/teams/${abbr}.svg`}
                         alt={abbr}
                     />
                 </div>

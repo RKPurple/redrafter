@@ -36,13 +36,13 @@ function PlacedPickCard({
                 <div className="team-logos-container">
                     <img
                         className="primary-logo"
-                        src={`/src/assets/teams/${abbr}.svg`}
+                        src={`/teams/${abbr}.svg`}
                         alt={abbr}
                     />
                     {tradedTo && draftedBy && (
                         <img
                             className="secondary-logo"
-                            src={`/src/assets/teams/${draftedBy}.svg`}
+                            src={`/teams/${draftedBy}.svg`}
                             alt={draftedBy}
                         />
                     )}
