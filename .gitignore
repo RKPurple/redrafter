@@ -1,0 +1,21 @@
+# Environment variables
+.env
+.env.production
+.env.local
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database files
+*.db
+*.sql
+
+# Node
+node_modules/
+dist/
+dist-ssr/
