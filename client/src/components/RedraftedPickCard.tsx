@@ -1,5 +1,5 @@
 import "./RedraftedPickCard.css";
-import React, { useState } from "react";
+import React from "react";
 import { API_URL } from "../config";
 
 type RedraftedPickCardProps = {
@@ -33,9 +33,8 @@ function RedraftedPickCard({
     isSelected = false,
     overlayType,
 }: RedraftedPickCardProps) {
-    const [preDraftImageError, setPreDraftImageError] = useState(false);
+    const preDraftImageError = false;
     const redraftedAbbr = reDraftedBy?.toLowerCase() ?? "nba";
-    const originalAbbr = draftedBy?.toLowerCase() ?? "nba";
     const headshotSrc = `${API_URL}/headshot/${playerNbaStatsId ?? 0}`;
     const playerPreDraft = playerCollegeOrClub?.toLowerCase().replace(/\s+/g, '').replace(/['.]/g, '')
 
