@@ -1,6 +1,6 @@
 import "./RedraftedPickCard.css";
 import React from "react";
-import { API_URL } from "../config";
+
 
 type RedraftedPickCardProps = {
     redraftedPickNumber: number;
@@ -34,7 +34,7 @@ function RedraftedPickCard({
 }: RedraftedPickCardProps) {
     const preDraftImageError = false;
     const redraftedAbbr = reDraftedBy?.toLowerCase() ?? "nba";
-    const headshotSrc = `${API_URL}/headshot/${playerNbaStatsId ?? 0}`;
+    const headshotSrc = `https://cdn.nba.com/headshots/nba/latest/1040x760/${playerNbaStatsId ?? 0}.png`;
     const playerPreDraft = playerCollegeOrClub?.toLowerCase().replace(/\s+/g, '').replace(/['.]/g, '')
 
     const style: React.CSSProperties = {

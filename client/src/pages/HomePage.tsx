@@ -28,7 +28,7 @@ type DraftPick = {
 
 export function getPlayerHeadShot(nbaStatsId: number | null): string {
   const id = nbaStatsId ?? 0;
-  return `${API_URL}/headshot/${id}`;
+  return `https://cdn.nba.com/headshots/nba/latest/1040x760/${id}.png`;
 }
 
 function HomePage() {
