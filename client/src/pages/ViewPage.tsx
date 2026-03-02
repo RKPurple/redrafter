@@ -54,8 +54,8 @@ function ViewPage() {
     const [selectedYear, setSelectedYear] = useState<number>(state?.selectedYear ?? 2025);
     const [viewSlots, setViewSlots] = useState<number | "all">(state?.redraftSlots ?? "all");
     const [page, setPage] = useState(0);
-    const [isExporting, setIsExporting] = useState(false);
-    const [exportError, setExportError] = useState<string | null>(null);
+    // const [isExporting, setIsExporting] = useState(false);
+    // const [exportError, setExportError] = useState<string | null>(null);
     const [loadingShared, setLoadingShared] = useState(!state && !!searchParams.get("data"));
     const [shareLabel, setShareLabel] = useState("Share Link ↗");
 
@@ -89,32 +89,32 @@ function ViewPage() {
         setPage(0);
     }
 
-    async function handleExport() {
-        setIsExporting(true);
-        setExportError(null);
-        try {
-            const res = await fetch(`${API_URL}/print-data`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ resolvedPicks, selectedYear, viewSlots, page }),
-            });
-            if (!res.ok) throw new Error("Failed to send print data");
-            const { token } = await res.json();
-            const imageRes = await fetch(`${API_URL}/screenshot/${token}`);
-            if (!imageRes.ok) throw new Error("Failed to generate screenshot");
-            const blob = await imageRes.blob();
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.download = `${selectedYear}-redraft.png`;
-            link.href = url;
-            link.click();
-            URL.revokeObjectURL(url);
-        } catch {
-            setExportError("Export failed. Please try again.");
-        } finally {
-            setIsExporting(false);
-        }
-    }
+    // async function handleExport() {
+    //     setIsExporting(true);
+    //     setExportError(null);
+    //     try {
+    //         const res = await fetch(`${API_URL}/print-data`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ resolvedPicks, selectedYear, viewSlots, page }),
+    //         });
+    //         if (!res.ok) throw new Error("Failed to send print data");
+    //         const { token } = await res.json();
+    //         const imageRes = await fetch(`${API_URL}/screenshot/${token}`);
+    //         if (!imageRes.ok) throw new Error("Failed to generate screenshot");
+    //         const blob = await imageRes.blob();
+    //         const url = URL.createObjectURL(blob);
+    //         const link = document.createElement("a");
+    //         link.download = `${selectedYear}-redraft.png`;
+    //         link.href = url;
+    //         link.click();
+    //         URL.revokeObjectURL(url);
+    //     } catch {
+    //         setExportError("Export failed. Please try again.");
+    //     } finally {
+    //         setIsExporting(false);
+    //     }
+    // }
 
     function handleShare() {
         const data = btoa(JSON.stringify({ year: selectedYear, slots: viewSlots, assignments }));
