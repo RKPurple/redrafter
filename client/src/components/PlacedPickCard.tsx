@@ -42,7 +42,7 @@ function PlacedPickCard({
                     {tradedTo && draftedBy && (
                         <img
                             className="secondary-logo"
-                            src={`/teams/${draftedBy}.svg`}
+                            src={`/teams/${draftedBy.toLowerCase()}.svg`}
                             alt={draftedBy}
                         />
                     )}
