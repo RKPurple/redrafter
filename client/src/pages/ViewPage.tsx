@@ -140,10 +140,11 @@ function ViewPage() {
                 <div className="view-page-header-right">
                     <RedraftSlotsSelector selected={viewSlots} onChange={handleViewSlotsChange} />
                     <button className="share-button" onClick={handleShare}>{shareLabel}</button>
-                    <button className="export-button" onClick={handleExport} disabled={isExporting}>
-                        {isExporting ? "Downloading..." : "Download ↓"}
-                    </button>
-                    {exportError && <span className="export-error">{exportError}</span>}
+                    <div className="export-button-wrapper" title="Download unavailable — use your device's screenshot tool instead">
+                        <button className="export-button" disabled>
+                            Download ↓
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className="view-body">

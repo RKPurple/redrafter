@@ -122,6 +122,11 @@
     white-space: nowrap;
 }
 
+.export-button-wrapper {
+    position: relative;
+    cursor: not-allowed;
+}
+
 .export-button:disabled {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);
@@ -129,6 +134,7 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+    pointer-events: none;
 }
 
 .view-body {
