@@ -25,7 +25,6 @@ function RedraftedPickCard({
     playerPosition,
     playerCollegeOrClub,
     reDraftedBy,
-    draftedBy,
     playerNbaStatsId,
     onClick,
     onUnassign,
