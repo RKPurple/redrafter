@@ -32,4 +32,6 @@ INSERT INTO teams (abbr, city, name) VALUES
 ('SEA', 'Seattle', 'SuperSonics'),
 ('TOR', 'Toronto', 'Raptors'),
 ('UTA', 'Utah', 'Jazz'),
-('WAS', 'Washington', 'Wizards');
+('WAS', 'Washington', 'Wizards'),
+('CHH', 'Charlotte', 'Hornets'),
+('VAN', 'Vancouver', 'Grizzlies');
