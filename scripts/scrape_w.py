@@ -50,6 +50,11 @@ CLUB_OVERWRITES = {
     "Minnesota (So)": "Minnesota",
     "Cypress Creek HS": "High School",
     "Sinalco Superleague": "Serbia",
+    "Dominguez HS": "High School",
+    "Thornwood HS": "High School",
+    "Oak Hill Academy": "High School",
+    "St. Jude HS": "High School",
+    
 }
 
 def fix_club(club: str) -> str:
