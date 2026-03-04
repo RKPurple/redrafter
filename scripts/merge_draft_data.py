@@ -18,7 +18,7 @@ def normalize_name(name: str) -> str:
     return name.strip()
 
 def normalize_team(city: str, year: int) -> str:
-    charlotte = "CHO" if year >= 2014 else "CHA"
+    charlotte = "CHO" if year >= 2014 or year <= 2001 else "CHA"
     new_orleans = "NOP" if year >= 2013 else "NOH"
     nba_teams = {
         "atlanta": "ATL",
@@ -53,7 +53,8 @@ def normalize_team(city: str, year: int) -> str:
         "seattle": "SEA",
         "toronto": "TOR",
         "utah": "UTA",
-        "washington": "WAS"
+        "washington": "WAS",
+        "vancouver": "VAN"
     }
     city = city.lower()
     return nba_teams[city]
