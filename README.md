@@ -21,4 +21,4 @@ Navigate to client directory and execute:
 npm run dev 
 ```
 
-Open [http://localhost:5173](http://localhost:5173) (or whatever localhost prompted
+Open [http://localhost:5173](http://localhost:5173) (or whatever localhost prompted)
