@@ -54,6 +54,8 @@ CLUB_OVERWRITES = {
     "Thornwood HS": "High School",
     "Oak Hill Academy": "High School",
     "St. Jude HS": "High School",
+    "Washington Union HS": "High School",
+    
     
 }
 
