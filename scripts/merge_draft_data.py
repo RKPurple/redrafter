@@ -20,7 +20,7 @@ def normalize_name(name: str) -> str:
 def normalize_team(city: str, year: int) -> str:
     charlotte = "CHO" if year >= 2014 or year <= 2001 else "CHA"
     new_orleans = "NOP" if year >= 2013 else "NOH"
-    nba_teams = {
+    cities = {
         "atlanta": "ATL",
         "boston": "BOS",
         "brooklyn": "BRK",
@@ -43,7 +43,6 @@ def normalize_team(city: str, year: int) -> str:
         "new orleans": new_orleans,
         "new york": "NYK",
         "oklahoma city": "OKC",
-        "oklahoma city thunder": "OKC",
         "orlando": "ORL",
         "philadelphia": "PHI",
         "phoenix": "PHO",
@@ -56,8 +55,50 @@ def normalize_team(city: str, year: int) -> str:
         "washington": "WAS",
         "vancouver": "VAN"
     }
+    teams = {
+        "atlanta hawks": "ATL",
+        "boston celtics": "BOS",
+        "brooklyn nets": "BRK",
+        "charlotte hornets": charlotte,
+        "charlotte bobcats": charlotte,
+        "chicago bulls": "CHI",
+        "cleveland cavaliers": "CLE",
+        "dallas mavericks": "DAL",
+        "denver nuggets": "DEN",
+        "detroit pistons": "DET",
+        "golden state warriors": "GSW",
+        "houston rockets": "HOU",
+        "indiana pacers": "IND",
+        "la clippers": "LAC",
+        "los angeles clippers": "LAC",
+        "la lakers": "LAL",
+        "los angeles lakers": "LAL",
+        "memphis grizzlies": "MEM",
+        "miami heat": "MIA",
+        "milwaukee bucks": "MIL",
+        "minnesota timberwolves": "MIN",
+        "new jersey nets": "NJN",
+        "new orleans pelicans": new_orleans,
+        "new orleans hornets": new_orleans,
+        "new york knicks": "NYK",
+        "oklahoma city thunder": "OKC",
+        "orlando magic": "ORL",
+        "philadelphia 76ers": "PHI",
+        "phoenix suns": "PHO",
+        "portland trail blazers": "POR",
+        "sacramento kings": "SAC",
+        "san antonio spurs": "SAS",
+        "seattle supersonics": "SEA",
+        "toronto raptors": "TOR",
+        "utah jazz": "UTA",
+        "washington wizards": "WAS",
+        "vancouver grizzlies": "VAN"
+    }
     city = city.lower()
-    return nba_teams[city]
+    if city in cities:
+        return cities[city]
+    else: 
+        return teams[city]
 
 def get_player_id(bb_name: str, wiki_name: str):
     names_to_try = []

@@ -1,12 +1,16 @@
 import psycopg2
 import psycopg2.extras
 import json
+import re
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 DATABASE_URL = os.getenv("DATABASE_URL")
+
+SCRIPT_DIR = Path(__file__).parent
+OUTPUT_DIR = (SCRIPT_DIR / "../scripts/output").resolve()
 
 conn = psycopg2.connect(DATABASE_URL)
 conn.autocommit = False
@@ -101,33 +105,84 @@ def insert_draft_pick(
         )
     )
 
-def ingest(file_path: Path):
-    with open(file_path, encoding="utf-8") as f:
-        for line in f:
-            record = json.loads(line)
+def enriched_path(year: int) -> Path:
+    return OUTPUT_DIR / f"draft_{year}_enriched.jsonl"
 
-            draft_id = get_or_create_draft(record["year"])
-            player_id = get_or_create_player(record["player"])
+def discover_all_years() -> list[int]:
+    years = []
+    for p in OUTPUT_DIR.glob("draft_*_enriched.jsonl"):
+        m = re.match(r"draft_(\d{4})_enriched\.jsonl$", p.name)
+        if m:
+            years.append(int(m.group(1)))
+    return sorted(years)
 
-            insert_draft_pick(
-                draft_id=draft_id,
-                player_id=player_id,
-                draft=record["draft"],
-                match_status=record["match_status"],
-            )
-    conn.commit()
+def ingest_year(year: int) -> bool:
+    path = enriched_path(year)
+    if not path.exists():
+        print(f"[{year}] skipped — file not found: {path}")
+        return False
+    try:
+        with open(path, encoding="utf-8") as f:
+            count = 0
+            for line in f:
+                record = json.loads(line)
+
+                draft_id = get_or_create_draft(record["year"])
+                player_id = get_or_create_player(record["player"])
+
+                insert_draft_pick(
+                    draft_id=draft_id,
+                    player_id=player_id,
+                    draft=record["draft"],
+                    match_status=record["match_status"],
+                )
+                count += 1
+        conn.commit()
+        print(f"[{year}] ingested {count} picks")
+        return True
+    except Exception as e:
+        conn.rollback()
+        print(f"[{year}] FAILED: {e}")
+        return False
 
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Ingest enriched draft data into the database.")
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         "-y", "--year",
-        type=int,
-        default=2025,
-        help="Draft year to ingest (default: 2025)",
+        type=int, nargs="+",
+        help="One or more draft years (e.g. -y 2024 2025).",
+    )
+    group.add_argument(
+        "--range",
+        type=int, nargs=2, metavar=("START", "END"),
+        help="Inclusive year range, e.g. --range 2000 2025.",
+    )
+    group.add_argument(
+        "--all",
+        action="store_true",
+        help="Ingest every draft_*_enriched.jsonl found in scripts/output/.",
     )
     args = parser.parse_args()
 
-    ingest(Path(f"../scripts/output/draft_{args.year}_enriched.jsonl"))
-    print("Ingestion complete :)")
+    if args.all:
+        years = discover_all_years()
+    elif args.range:
+        start, end = sorted(args.range)
+        years = list(range(start, end + 1))
+    elif args.year:
+        years = sorted(set(args.year))
+    else:
+        years = [2025]
+
+    if not years:
+        print("No years to ingest.")
+        raise SystemExit(1)
+
+    succeeded = 0
+    for y in years:
+        if ingest_year(y):
+            succeeded += 1
+    print(f"Done. {succeeded}/{len(years)} years ingested.")
