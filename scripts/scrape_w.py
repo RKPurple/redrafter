@@ -55,11 +55,18 @@ CLUB_OVERWRITES = {
     "Oak Hill Academy": "High School",
     "St. Jude HS": "High School",
     "Washington Union HS": "High School",
+    "Serbia and Montenegro": "Serbia",
+    "Croatiaand": "Croatia",
+    "Slovenia": "Slovenia",
+    "Brunswick": "High School",
+    "Greece": "Greece",
     
     
 }
 
 def fix_club(club: str) -> str:
+    club = re.sub(r"\[\s*(?:n(?:ote)?)?\s*\d+\s*\]", "", club, flags=re.IGNORECASE)
+    club = re.sub(r"\s+", " ", club).strip()
     for key, value in CLUB_OVERWRITES.items():
         if key in club:
             return value
@@ -77,7 +84,8 @@ def fix_club(club: str) -> str:
 
 
 def fix_name(name: str) -> str:
-    name = name.replace("#", "").replace("~", "").replace("+", "").replace("*", "")
+    name = re.sub(r"\[[^\]]*\]", "", name)
+    name = name.replace("#", "").replace("~", "").replace("+", "").replace("*", "").replace("^", "")
     parts = name.split()
     cleaned_parts = []
     
@@ -93,10 +101,13 @@ def fix_name(name: str) -> str:
     return ' '.join(cleaned_parts)
 
 def final_team(selection: str):
-    match = re.search(r'traded to\s+([A-Za-z\s]+?)(?:\s+via|\)|\[|$)', selection)
+    match = re.search(
+        r"traded to\s+(?:the\s+)?([A-Za-z][A-Za-z.\s'-]*?)(?:\s+via|\)|\[|$)", 
+        selection, 
+        flags=re.IGNORECASE,
+    )
     if match:
-        city = match.group(1).strip()
-        return city
+        return re.sub(r"\.", "", match.group(1)).strip()
     return None
 
 def scrape_draft(year):
@@ -116,13 +127,18 @@ def scrape_draft(year):
     os.makedirs(out_dir, exist_ok=True)
     with open(f"{out_dir}/wiki_{year}.jsonl", "w", encoding="utf-8") as f:
         for row in rows:
+            all_cells = row.find_all(["td", "th"])
             cells = [cell.get_text(strip=True) for cell in row.find_all(["td", "th"])]
-            if not cells or (len(cells) <= 1):
+            if not cells or (len(cells) <= 2):
                 continue
             elif (cells[0] == '1' or cells[0] == '2'):
                 club = fix_club(cells[6])
                 name = fix_name(cells[2])
-                team = final_team(cells[5])
+                selection_text = ""
+                if len(all_cells) >= 6:
+                    selection_text = all_cells[5].get_text(" ", strip=True)
+                    selection_text = re.sub(r"\s+", " ", selection_text)
+                team = final_team(selection_text)
                 record = {
                     "wiki_name": name,
                     "position": cells[3],
