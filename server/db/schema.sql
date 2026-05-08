@@ -11,14 +11,26 @@ CREATE TABLE players (
     undrafted BOOLEAN NOT NULL DEFAULT false
 );
 
+/* Franchises */
+CREATE TABLE franchises (
+    id SERIAL PRIMARY KEY,
+    display_name TEXT NOT NULL UNIQUE
+);
+
 /* Teams */
 CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
 
     abbr TEXT UNIQUE NOT NULL,
     city TEXT NOT NULL,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    franchise_id INTEGER NOT NULL,
+
+    FOREIGN KEY (franchise_id)
+        REFERENCES franchises(id)
 );
+
+CREATE INDEX idx_teams_franchise_id ON teams(franchise_id);
 
 /* Drafts */
 CREATE TABLE drafts (
