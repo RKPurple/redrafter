@@ -1,6 +1,6 @@
 @keyframes placeCard {
     from {
-        height: 300px;
+        height: 344px;
         filter: grayscale(0%);
         opacity: 1;
     }

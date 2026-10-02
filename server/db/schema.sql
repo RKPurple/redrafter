@@ -76,3 +76,52 @@ CREATE INDEX idx_draft_picks_draft_id
 
 CREATE INDEX idx_draft_picks_player_id
     ON draft_picks(player_id);
+
+/* Player Season Stats (one row per season per team; team_id 0 = TOT row for traded seasons) */
+CREATE TABLE IF NOT EXISTS player_season_stats (
+    id SERIAL PRIMARY KEY,
+
+    player_id INTEGER NOT NULL,
+    season_type TEXT NOT NULL CHECK (season_type IN ('regular', 'playoffs')),
+    season_id TEXT NOT NULL,
+    team_id INTEGER NOT NULL,
+    team_abbr TEXT,
+    player_age NUMERIC(4,1),
+
+    gp INTEGER, gs INTEGER, min NUMERIC(8,1),
+    fgm INTEGER, fga INTEGER, fg_pct NUMERIC(5,3),
+    fg3m INTEGER, fg3a INTEGER, fg3_pct NUMERIC(5,3),
+    ftm INTEGER, fta INTEGER, ft_pct NUMERIC(5,3),
+    oreb INTEGER, dreb INTEGER, reb INTEGER,
+    ast INTEGER, stl INTEGER, blk INTEGER, tov INTEGER, pf INTEGER, pts INTEGER,
+
+    UNIQUE (player_id, season_type, season_id, team_id),
+
+    FOREIGN KEY (player_id)
+        REFERENCES players(id)
+        ON DELETE CASCADE
+);
+
+/* Player Career Stats (career totals per season type) */
+CREATE TABLE IF NOT EXISTS player_career_stats (
+    player_id INTEGER NOT NULL,
+    season_type TEXT NOT NULL CHECK (season_type IN ('regular', 'playoffs')),
+
+    gp INTEGER, gs INTEGER, min NUMERIC(8,1),
+    fgm INTEGER, fga INTEGER, fg_pct NUMERIC(5,3),
+    fg3m INTEGER, fg3a INTEGER, fg3_pct NUMERIC(5,3),
+    ftm INTEGER, fta INTEGER, ft_pct NUMERIC(5,3),
+    oreb INTEGER, dreb INTEGER, reb INTEGER,
+    ast INTEGER, stl INTEGER, blk INTEGER, tov INTEGER, pf INTEGER, pts INTEGER,
+
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    PRIMARY KEY (player_id, season_type),
+
+    FOREIGN KEY (player_id)
+        REFERENCES players(id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_player_season_stats_player_id
+    ON player_season_stats(player_id);

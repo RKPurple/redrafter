@@ -17,7 +17,11 @@ def get_draft_by_year(draft_filter: str | None = None) -> str:
         p.position,
         p.college_or_club,
         p.nba_stats_id,
-        p.undrafted
+        p.undrafted,
+        pcs.gp,
+        ROUND(pcs.pts::numeric / NULLIF(pcs.gp, 0), 1) AS ppg,
+        ROUND(pcs.reb::numeric / NULLIF(pcs.gp, 0), 1) AS rpg,
+        ROUND(pcs.ast::numeric / NULLIF(pcs.gp, 0), 1) AS apg
     
     FROM draft_picks dp
     JOIN drafts d ON dp.draft_id = d.id
@@ -25,6 +29,8 @@ def get_draft_by_year(draft_filter: str | None = None) -> str:
 
     LEFT JOIN teams drafted ON dp.drafted_by_team_id = drafted.id
     LEFT JOIN teams traded ON dp.traded_to_team_id = traded.id
+    LEFT JOIN player_career_stats pcs
+        ON pcs.player_id = p.id AND pcs.season_type = 'regular'
 
     WHERE d.year = %s{undrafted_condition}
     ORDER BY

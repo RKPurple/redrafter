@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { API_URL } from "../config";
 import "../global.css"
 import "./HomePage.css"
-import DraftPickCard from "../components/DraftPickCard";
+import DraftPickCard, { type PlayerStats } from "../components/DraftPickCard";
 import EmptyPickCard from "../components/EmptyPickCard";
 import RedraftedPickCard from "../components/RedraftedPickCard";
 import PlacedPickCard from "../components/PlacedPickCard";
@@ -16,6 +16,7 @@ type Player = {
   college_or_club: string | null;
   nba_stats_id: number | null;
   undrafted: boolean;
+  stats: PlayerStats | null;
 };
 
 type DraftPick = {
@@ -274,6 +275,7 @@ function HomePage() {
                   draftedBy={pick.drafted_by}
                   tradedTo={pick.traded_to}
                   playerNbaStatsId={pick.player.nba_stats_id}
+                  playerStats={pick.player.stats}
                   isSelected={selectedPickIdx === idx}
                   onClick={() => handleDraftPickClick(idx)}
                 />
