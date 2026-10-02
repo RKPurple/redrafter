@@ -67,6 +67,12 @@ def draft_by_year(
                 "college_or_club": row["college_or_club"],
                 "nba_stats_id": row["nba_stats_id"],
                 "undrafted": bool(row["undrafted"]),
+                "stats": {
+                    "gp": row["gp"],
+                    "ppg": float(row["ppg"]),
+                    "rpg": float(row["rpg"]),
+                    "apg": float(row["apg"]),
+                } if row["gp"] else None,
             },
         }
         for row in rows

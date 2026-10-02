@@ -1,7 +1,12 @@
 import "./DraftPickCard.css";
 import React, { useState } from "react";
 
-
+export type PlayerStats = {
+    gp: number;
+    ppg: number;
+    rpg: number;
+    apg: number;
+};
 
 type DraftPickCardProps = {
     pickNumber: number | null;
@@ -11,6 +16,7 @@ type DraftPickCardProps = {
     draftedBy: string | null;
     tradedTo: string | null;
     playerNbaStatsId: number | null;
+    playerStats?: PlayerStats | null;
     isSelected: boolean;
     onClick: () => void;
 }
@@ -23,6 +29,7 @@ function DraftPickCard({
     draftedBy,
     tradedTo,
     playerNbaStatsId,
+    playerStats,
     isSelected,
     onClick,
 }: DraftPickCardProps) {
@@ -102,6 +109,23 @@ function DraftPickCard({
                     />
                 )}
             </div>
+            {/* Player Stats (career per game) */}
+            {playerStats && (
+                <div className="draft-card-stats">
+                    <div className="draft-card-stat">
+                        <span className="draft-card-stat-value">{playerStats.ppg.toFixed(1)}</span>
+                        <span className="draft-card-stat-label">PTS</span>
+                    </div>
+                    <div className="draft-card-stat">
+                        <span className="draft-card-stat-value">{playerStats.rpg.toFixed(1)}</span>
+                        <span className="draft-card-stat-label">REB</span>
+                    </div>
+                    <div className="draft-card-stat">
+                        <span className="draft-card-stat-value">{playerStats.apg.toFixed(1)}</span>
+                        <span className="draft-card-stat-label">AST</span>
+                    </div>
+                </div>
+            )}
             {/* Player Headshot */}
             <div className="player-headshot-wrapper">
                 <img

@@ -7,7 +7,7 @@
       opacity: 0.45;
   }
   to {
-      height: 300px;
+      height: 344px;
       filter: grayscale(0%);
       opacity: 1;
   }
@@ -16,7 +16,7 @@
 .draft-card {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 344px;
   border-radius: 12px;
   overflow: auto;
   box-sizing: border-box;
@@ -24,6 +24,7 @@
   cursor: pointer;
   animation: draftCard 0.3s ease-in-out;
   --header-height: 60px;
+  --stats-height: 44px;
 }
 
 .draft-card.selected {
@@ -181,12 +182,47 @@
   overflow: hidden;
 }
 
+/* ---------------- Player Stats ---------------- */
+/* Strip directly under the headshot */
+.draft-card-stats {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  height: var(--stats-height);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: "Ferry", sans-serif;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.draft-card-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  line-height: 1;
+}
+
+.draft-card-stat-value {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.draft-card-stat-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  opacity: 0.85;
+}
+
 /* ---------------- Team Logos ---------------- */
 
 .team-logos {
   position: absolute;
   left: 24px;
-  bottom: 50px;
+  bottom: calc(50px + var(--stats-height) / 2);
   width: 140px;
   height: 140px;
   z-index: 1;
@@ -214,7 +250,7 @@
 .draft-card .player-headshot-wrapper {
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: var(--stats-height);
   top: var(--header-height);
   width: 50%;
   display: flex;
@@ -241,15 +277,16 @@
       opacity: 0.45;
     }
     to {
-      height: 180px;
+      height: 210px;
       filter: grayscale(0%);
       opacity: 1;
     }
   }
 
   .draft-card {
-    height: 180px;
+    height: 210px;
     --header-height: 44px;
+    --stats-height: 30px;
   }
 
   .draft-card-header {
@@ -281,8 +318,21 @@
 
   .team-logos {
     left: 16px;
-    bottom: 30px;
+    bottom: calc(30px + var(--stats-height) / 2);
     width: 90px;
     height: 90px;
+  }
+
+  .draft-card-stat {
+    gap: 3px;
+  }
+
+  .draft-card-stat-value {
+    font-size: 16px;
+  }
+
+  .draft-card-stat-label {
+    font-size: 9px;
+    letter-spacing: 1px;
   }
 }
